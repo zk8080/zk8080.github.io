@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Git使用手册]]></title>
+    <url>%2F2019%2F03%2F29%2FGit%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C%2F</url>
+    <content type="text"><![CDATA[最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[HelloWorld]]></title>
     <url>%2F2019%2F03%2F26%2FHelloWorld%2F</url>
     <content type="text"><![CDATA[新的开始经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；希望从今天开始，自己能够坚持记录生活和工作上的一些事！加油！！！]]></content>
