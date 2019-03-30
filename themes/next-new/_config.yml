@@ -62,7 +62,7 @@ footer:
     color: "red"
 
   # If not defined, `author` from Hexo main config will be used.
-  copyright: true
+  copyright: 
 
   powered:
     # Hexo link (Powered by Hexo).
@@ -335,7 +335,7 @@ symbols_count_time:
   item_text_post: true
   item_text_total: true
   awl: 4
-  wpm: 275
+  wpm: 100
 
 codeblock:
   # Manual define the border radius in codeblock, leave it blank for the default value: 1
