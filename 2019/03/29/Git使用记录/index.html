@@ -449,7 +449,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/2019/03/29/Git使用记录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/29/Git使用记录/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/29/Git使用记录/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -650,9 +650,9 @@
 
   
     <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
     </div>
 
   
@@ -1007,6 +1007,29 @@
   
 
   
+  
+  <script id="dsq-count-scr" src="https://zkat.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/03/29/Git使用记录/";
+    this.page.identifier = "2019/03/29/Git使用记录/";
+    this.page.title = 'Git使用记录';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zkat.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
 
 
   
