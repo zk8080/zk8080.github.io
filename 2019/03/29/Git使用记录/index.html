@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法初始化仓库初始化仓库有两种方法：第一种是直接在当前目录把所有文件导入到Git中；第二种是从远程服务器克隆一个Git仓库到本地。    git init    执行该命令会在在当前目">
+  <meta name="description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法设置用户名和邮箱git config --global user.name &amp;#39;用户名&amp;#39;git config --global user.email &amp;#39;用户邮">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git使用记录">
 <meta property="og:url" content="http://yoursite.com/2019/03/29/Git使用记录/index.html">
 <meta property="og:site_name" content="ZKAT">
-<meta property="og:description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法初始化仓库初始化仓库有两种方法：第一种是直接在当前目录把所有文件导入到Git中；第二种是从远程服务器克隆一个Git仓库到本地。    git init    执行该命令会在在当前目">
+<meta property="og:description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法设置用户名和邮箱git config --global user.name &amp;#39;用户名&amp;#39;git config --global user.email &amp;#39;用户邮">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-01T13:22:36.416Z">
+<meta property="og:updated_time" content="2019-04-13T07:55:27.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git使用记录">
-<meta name="twitter:description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法初始化仓库初始化仓库有两种方法：第一种是直接在当前目录把所有文件导入到Git中；第二种是从远程服务器克隆一个Git仓库到本地。    git init    执行该命令会在在当前目">
+<meta name="twitter:description" content="最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。 基础语法设置用户名和邮箱git config --global user.name &amp;#39;用户名&amp;#39;git config --global user.email &amp;#39;用户邮">
 
 
 
@@ -412,7 +412,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-01 21:22:36" itemprop="dateModified" datetime="2019-04-01T21:22:36+08:00">2019-04-01</time>
+                <time title="修改时间：2019-04-13 15:55:27" itemprop="dateModified" datetime="2019-04-13T15:55:27+08:00">2019-04-13</time>
               
             
           </span>
@@ -478,7 +478,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.3k</span>
+                <span title="本文字数">3.7k</span>
               
 
               
@@ -492,7 +492,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">8 分钟</span>
+                <span title="阅读时长">9 分钟</span>
               
             </div>
           
@@ -513,7 +513,8 @@
 
       
         <p>最近工作中使用Git来进行代码管理，由于之前一个人折腾，并不会遇到太多冲突代码的问题，所以遇到冲突的情况，就会导致需要去各种百度查文档才能解决。<br>因此写一篇文章记录自己常用的命令和流程，以及遇到的问题和解决方法。</p>
-<h1 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h1><h2 id="初始化仓库"><a href="#初始化仓库" class="headerlink" title="初始化仓库"></a>初始化仓库</h2><p>初始化仓库有两种方法：第一种是直接在当前目录把所有文件导入到Git中；第二种是从远程服务器克隆一个Git仓库到本地。<br>    <code>git init</code><br>    执行该命令会在在当前目录中初始化一个Git仓库，创建一个.git的文件夹，这个.git文件夹中包含了所有初始化Git仓库必须的文件，是Git的核心。<br>    <code>git clone [远程服务器仓库地址] [本地目录名]</code><br>    如果想获取一份已经存在远程服务器上的Git仓库，则执行该命令即可。可在服务器url参数后添加一个本地仓库的名字。</p>
+<h1 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h1><h2 id="设置用户名和邮箱"><a href="#设置用户名和邮箱" class="headerlink" title="设置用户名和邮箱"></a>设置用户名和邮箱</h2><p><code>git config --global user.name &#39;用户名&#39;</code><br><code>git config --global user.email &#39;用户邮箱&#39;</code></p>
+<h2 id="初始化仓库"><a href="#初始化仓库" class="headerlink" title="初始化仓库"></a>初始化仓库</h2><p>初始化仓库有两种方法：第一种是直接在当前目录把所有文件导入到Git中；第二种是从远程服务器克隆一个Git仓库到本地。<br>    <code>git init</code><br>    执行该命令会在在当前目录中初始化一个Git仓库，创建一个.git的文件夹，这个.git文件夹中包含了所有初始化Git仓库必须的文件，是Git的核心。<br>    <code>git clone [远程服务器仓库地址] [本地目录名]</code><br>    如果想获取一份已经存在远程服务器上的Git仓库，则执行该命令即可。可在服务器url参数后添加一个本地仓库的名字。</p>
 <h2 id="查看文件状态"><a href="#查看文件状态" class="headerlink" title="查看文件状态"></a>查看文件状态</h2><p><code>git status</code><br>执行该命令可以看到当前哪些文件处于什么状态。目前我所知道的有以下几个状态：  </p>
 <ul>
 <li>modified: 文件被修改</li>
@@ -583,6 +584,22 @@
 </ul>
 <p>如果git branch后直接写分支名，则是创建一个新分支；如果分支名后加上远程仓库名/远程分支名，则可以创建一个关联到远程分支的本地分支。例如:<code>git branch test origin/test</code>使用该命令后则可以在本地创建一个关联到远程test分支的test分支。使用<code>git branch -u [远程仓库名/远程分支名]</code>可以使当前分支关联到远程分支，如果当前分支已经关联远程分支，那么该操作则会更改当前分支关联的远程分支。<br><code>git checkout [分支名]</code><br>执行该命令后，可以切换到对应的分支下。使用<code>git checkout -b [分支名]</code>可以快速创建一个新分支，并且切换到该分支。使用<code>git checkout -b [分支名] [远程仓库名/分支名]</code>可以新建一个关联到远程分支的分支，并且切换到该分支；也可以使用<code>git checkout --track [远程仓库名/分支名]</code>,但是创建的分支名会和远程分支相同。<br><code>git checkout [分支名] [文件目录]</code><br>在当前分支下执行该命令，会将对应分支名下的文件目录覆盖到当前分支对应的文件目录。<br><code>git push [远程仓库名] [分支名]</code><br>执行该命令可以将当前分支代码提交到对应远程分支，如果远程没有对应分支，则会新建一个远程分支并且提交。</p>
 <h2 id="储藏"><a href="#储藏" class="headerlink" title="储藏"></a>储藏</h2><p><code>git stash</code><br>执行该命令后，会将当前分支下的所有修改和暂存进行储藏，保存到一个栈上。储藏后的分支是一个干净的目录，可以直接拉取远程代码，并且不会出现任何冲突。<br><code>git stash list</code><br>执行该命令后，会列出所有进行过的储藏。stash@{数字}代表储藏的名字。<br><code>git stash apply [储藏名]</code><br>执行该命令后，可以将对应储藏名的储藏修改应用到当前分支上，不传储藏名则默认应用最新的储藏。该操作不会删除储藏，如果想要在应用储藏后移除储藏则可以使用<code>git stash drop [储藏名]</code>来移除储藏。<br><code>git stash pop [储藏名]</code><br>执行该命令后，会将对应储藏应用到当前分支，并且移除储藏。不传储藏名，则默认应用最新的储藏，并且移除它。</p>
+<h2 id="删除没有被追踪的文件"><a href="#删除没有被追踪的文件" class="headerlink" title="删除没有被追踪的文件"></a>删除没有被追踪的文件</h2><p><code>git clean [option]</code><br>执行该命令后，会将没有add的文件和文件夹删除，具体option参数如下:</p>
+<ul>
+<li>-n：会展示哪些文件要被删除，但是不会去做删除操作，只是用来提示</li>
+</ul>
+<ul>
+<li>-f：删除当前目录下没有被追踪过的文件，不会删除.gitignore文件里面指定的文件</li>
+</ul>
+<ul>
+<li>-f <path>：删除对应路径下的文件</path></li>
+</ul>
+<ul>
+<li>-df：删除当前目录下没有被追踪过的文件和文件夹</li>
+</ul>
+<ul>
+<li>-xf：删除当前目录下所有没有追踪过的文件. 不管他是否是.gitignore文件里面指定的文件夹和文件</li>
+</ul>
 <h1 id="目前工作中的使用流程"><a href="#目前工作中的使用流程" class="headerlink" title="目前工作中的使用流程"></a>目前工作中的使用流程</h1><h2 id="当前我所使用的提交流程"><a href="#当前我所使用的提交流程" class="headerlink" title="当前我所使用的提交流程"></a>当前我所使用的提交流程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git status // 查看当前分支状态</span><br><span class="line">git stash // 储藏当前修改</span><br><span class="line">git pull // 拉取远程分支代码</span><br><span class="line">git stash pop // 应用上次储藏</span><br><span class="line">git status // 查看应用储藏后的状态</span><br><span class="line">********* // 解决冲突和合并</span><br><span class="line">git add [目录] // 暂存对应目录下的修改</span><br><span class="line">git commit -m &apos;remark&apos; // 提交到本地仓库</span><br><span class="line">git push // 提交到远程仓库</span><br></pre></td></tr></table></figure>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>以上只是我目前所使用过和了解的一些语法和流程，目前只是很浅显的知道如何使用git去管理代码，其中的原理还不知其所以然，后续会抽时间去研究一下做补充，也会把自己遇到的问题和解决方法也记录在这里。</p>
 
@@ -806,7 +823,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础语法"><span class="nav-number">1.</span> <span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化仓库"><span class="nav-number">1.1.</span> <span class="nav-text">初始化仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看文件状态"><span class="nav-number">1.2.</span> <span class="nav-text">查看文件状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交代码到本地仓库"><span class="nav-number">1.3.</span> <span class="nav-text">提交代码到本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看提交历史"><span class="nav-number">1.4.</span> <span class="nav-text">查看提交历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消暂存文件或者文件的修改"><span class="nav-number">1.5.</span> <span class="nav-text">取消暂存文件或者文件的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销commit提交"><span class="nav-number">1.6.</span> <span class="nav-text">撤销commit提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取远程仓库代码"><span class="nav-number">1.7.</span> <span class="nav-text">拉取远程仓库代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交当前代码到远程仓库"><span class="nav-number">1.8.</span> <span class="nav-text">提交当前代码到远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加远程仓库"><span class="nav-number">1.9.</span> <span class="nav-text">添加远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用分支"><span class="nav-number">1.10.</span> <span class="nav-text">使用分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#储藏"><span class="nav-number">1.11.</span> <span class="nav-text">储藏</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目前工作中的使用流程"><span class="nav-number">2.</span> <span class="nav-text">目前工作中的使用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#当前我所使用的提交流程"><span class="nav-number">2.1.</span> <span class="nav-text">当前我所使用的提交流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础语法"><span class="nav-number">1.</span> <span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置用户名和邮箱"><span class="nav-number">1.1.</span> <span class="nav-text">设置用户名和邮箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化仓库"><span class="nav-number">1.2.</span> <span class="nav-text">初始化仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看文件状态"><span class="nav-number">1.3.</span> <span class="nav-text">查看文件状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交代码到本地仓库"><span class="nav-number">1.4.</span> <span class="nav-text">提交代码到本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看提交历史"><span class="nav-number">1.5.</span> <span class="nav-text">查看提交历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消暂存文件或者文件的修改"><span class="nav-number">1.6.</span> <span class="nav-text">取消暂存文件或者文件的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销commit提交"><span class="nav-number">1.7.</span> <span class="nav-text">撤销commit提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取远程仓库代码"><span class="nav-number">1.8.</span> <span class="nav-text">拉取远程仓库代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交当前代码到远程仓库"><span class="nav-number">1.9.</span> <span class="nav-text">提交当前代码到远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加远程仓库"><span class="nav-number">1.10.</span> <span class="nav-text">添加远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用分支"><span class="nav-number">1.11.</span> <span class="nav-text">使用分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#储藏"><span class="nav-number">1.12.</span> <span class="nav-text">储藏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除没有被追踪的文件"><span class="nav-number">1.13.</span> <span class="nav-text">删除没有被追踪的文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目前工作中的使用流程"><span class="nav-number">2.</span> <span class="nav-text">目前工作中的使用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#当前我所使用的提交流程"><span class="nav-number">2.1.</span> <span class="nav-text">当前我所使用的提交流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
             
 
           </div>
@@ -852,7 +869,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">14 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
   
 </div>
 
