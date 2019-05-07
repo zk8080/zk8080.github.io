@@ -4,8 +4,9 @@ date: 2019-05-04 17:15:40
 categories: 前端
 tags:
     - React
+    - JavaScript
 ---
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在React开发中，setState一般都会被认为是异步的，因为官方也给setState提供了一个回调函数来达到实时获取state的值。但是最近在掘金上看到一篇文章[你真的理解setState吗？](https://juejin.im/post/5b45c57c51882519790c7441)，看完后发现setState并不是想象中的异步那么简单。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在React开发中，setState一般都会被认为是异步的。但是最近在掘金上看到一篇文章 [你真的理解setState吗？](https://juejin.im/post/5b45c57c51882519790c7441) ，看完后发现setState并不是想象中的异步那么简单。
 
 # setState是异步的吗？
 在React官方文档中，有这样一段话：
