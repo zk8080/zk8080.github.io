@@ -23,7 +23,7 @@ tags:
 按照js是一门单线程语言，代码是从上到下的顺序执行的，我们会很正常的认为打印的结果是`abdec`,但是去chrome中验证下，却发现结果并不是这样。
 ## 同步和异步  
 原来js中将代码执行分为了同步和异步，当同步代码执行完毕后，才会去执行异步代码。`setTimeout、setInterval、callback、Promise`等，都属于异步操作。但是具体的执行机制是什么呢？我们可以看下面这张图(出处在文章尾部):
-![引用地址在文章结尾](http://pp0hf9wwd.bkt.clouddn.com/15fdd88994142347)
+![引用地址在文章结尾](https://raw.githubusercontent.com/zk8080/blog-picture/master/img/event-loop2.jpg)
 从这张图里我们可以知道:
 + js会将任务分为同步任务和异步任务，同步任务进入主线程，异步任务进入Event Table，并且注册回调函数，
 - 回调函数进入Event Queue;
@@ -60,7 +60,7 @@ tags:
 - 微任务：Promise、process.nextTick(暂不了解,后续学习)
 
 宏任务和微任务之间的执行顺序又是什么呢？我们看下面这张图(出处在文章尾部):
-![引用地址在文章结尾](http://pp0hf9wwd.bkt.clouddn.com/15fdcea13361a1ec)
+![引用地址在文章结尾](https://raw.githubusercontent.com/zk8080/blog-picture/master/img/cfbd39ddcbf42a5bc18725ea0560dc10.png)
 从这张图里我们可以知道：
 + js将代码分为宏任务和微任务，先进入宏任务中执行
 - 宏任务执行结束后，查看是否有可执行的微任务
