@@ -96,28 +96,31 @@
 
 
 
-  <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。先看一段代码:1234567891011setTimeout(">
-<meta name="keywords" content="JavaScript">
+  <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;不管是使用React还是Vue，生命周期都是我们必须掌握的。最近在面试的时候，很多人搞不清楚React的生命周期的执行顺序，所以写一篇文章来解析一下React的生命周期函数的执行顺序。本文只介绍常用的生命周期函数的执行顺序，所以有部分不常用的执行顺序可以去看React官方文档。我们先看一张官方文档中的生命周期图谱（v16.4）">
+<meta name="keywords" content="JavaScript,React">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS事件循环(Event Loop)">
-<meta property="og:url" content="http://yoursite.com/2019/04/11/JS事件循环/index.html">
+<meta property="og:title" content="React生命周期执行顺序详解">
+<meta property="og:url" content="http://yoursite.com/2019/05/15/React生命周期执行顺序详解/index.html">
 <meta property="og:site_name" content="ZKAT">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。先看一段代码:1234567891011setTimeout(">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;不管是使用React还是Vue，生命周期都是我们必须掌握的。最近在面试的时候，很多人搞不清楚React的生命周期的执行顺序，所以写一篇文章来解析一下React的生命周期函数的执行顺序。本文只介绍常用的生命周期函数的执行顺序，所以有部分不常用的执行顺序可以去看React官方文档。我们先看一张官方文档中的生命周期图谱（v16.4）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/event-loop2.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/cfbd39ddcbf42a5bc18725ea0560dc10.png">
-<meta property="og:updated_time" content="2019-05-11T04:34:49.318Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG22.png">
+<meta property="og:updated_time" content="2019-05-15T09:32:28.358Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS事件循环(Event Loop)">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。先看一段代码:1234567891011setTimeout(">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/event-loop2.jpg">
+<meta name="twitter:title" content="React生命周期执行顺序详解">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;不管是使用React还是Vue，生命周期都是我们必须掌握的。最近在面试的时候，很多人搞不清楚React的生命周期的执行顺序，所以写一篇文章来解析一下React的生命周期函数的执行顺序。本文只介绍常用的生命周期函数的执行顺序，所以有部分不常用的执行顺序可以去看React官方文档。我们先看一张官方文档中的生命周期图谱（v16.4）">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG16.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/11/JS事件循环/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/15/React生命周期执行顺序详解/">
 
 
 
@@ -127,7 +130,7 @@
   };
 </script>
 
-  <title>JS事件循环(Event Loop) | ZKAT</title>
+  <title>React生命周期执行顺序详解 | ZKAT</title>
   
 
 
@@ -355,7 +358,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/JS事件循环/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/15/React生命周期执行顺序详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZK8080">
@@ -372,7 +375,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">JS事件循环(Event Loop)
+          <h2 class="post-title" itemprop="name headline">React生命周期执行顺序详解
 
               
             
@@ -398,24 +401,12 @@
                 
               
 
-              <time title="创建时间：2019-04-11 21:12:42" itemprop="dateCreated datePublished" datetime="2019-04-11T21:12:42+08:00">2019-04-11</time>
+              <time title="创建时间：2019-05-15 14:34:37 / 修改时间：17:32:28" itemprop="dateCreated datePublished" datetime="2019-05-15T14:34:37+08:00">2019-05-15</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-11 12:34:49" itemprop="dateModified" datetime="2019-05-11T12:34:49+08:00">2019-05-11</time>
               
             
           </span>
@@ -451,8 +442,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/04/11/JS事件循环/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/11/JS事件循环/" itemprop="commentCount"></span>
+                <a href="/2019/05/15/React生命周期执行顺序详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/15/React生命周期执行顺序详解/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -481,7 +472,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.2k</span>
+                <span title="本文字数">6.7k</span>
               
 
               
@@ -495,7 +486,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">6 分钟</span>
+                <span title="阅读时长">17 分钟</span>
               
             </div>
           
@@ -515,84 +506,65 @@
       
 
       
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。<br>先看一段代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;</span><br><span class="line">    console.log(&apos;a&apos;)</span><br><span class="line">&#125;,0)</span><br><span class="line">console.log(&apos;b&apos;)</span><br><span class="line">setTimeout(function()&#123;</span><br><span class="line">    console.log(&apos;c&apos;)</span><br><span class="line">&#125;,1000)</span><br><span class="line">console.log(&apos;d&apos;)</span><br><span class="line">setTimeout(function()&#123;</span><br><span class="line">    console.log(&apos;e&apos;)</span><br><span class="line">&#125;,0)</span><br></pre></td></tr></table></figure></p>
-<p>按照js是一门单线程语言，代码是从上到下的顺序执行的，我们会很正常的认为打印的结果是<code>abdec</code>,但是去chrome中验证下，却发现结果并不是这样。</p>
-<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><p>原来js中将代码执行分为了同步和异步，当同步代码执行完毕后，才会去执行异步代码。<code>setTimeout、setInterval、callback、Promise</code>等，都属于异步操作。但是具体的执行机制是什么呢？我们可以看下面这张图(出处在文章尾部):<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/event-loop2.jpg" alt="引用地址在文章结尾"><br>从这张图里我们可以知道:</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不管是使用React还是Vue，生命周期都是我们必须掌握的。最近在面试的时候，很多人搞不清楚React的生命周期的执行顺序，所以写一篇文章来解析一下React的生命周期函数的执行顺序。本文只介绍常用的生命周期函数的执行顺序，所以有部分不常用的执行顺序可以去看React官方文档。<br>我们先看一张官方文档中的生命周期图谱（v16.4）：<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG16.png" alt="React生命周期图谱"><br>根据这个图，我们可以分三个阶段来解析React的生命周期执行顺序：</p>
+<h2 id="组件初始化创建-Mounting-阶段"><a href="#组件初始化创建-Mounting-阶段" class="headerlink" title="组件初始化创建(Mounting)阶段"></a>组件初始化创建(Mounting)阶段</h2><p>此阶段的顺序为：constructor -&gt; componentWillMount -&gt; render -&gt; ComponentDidMount。<br>由于React新的版本中将一些生命周期函数标记为‘过时’，所以在图谱中我们没有看到componentWillMount，但是现在依然可以使用这个生命周期函数。<br>我们可以看下面这行代码来检验这个阶段的执行顺序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        console.log(&apos;constructor&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render&apos;);</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                render</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打开chrome浏览器检验一下结果：<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG17.png" alt="初始化执行结果"><br>这个顺序没有什么疑问，但是如果是嵌套组件呢？父子组件之前的顺序是什么样的呢？</p>
+<h3 id="嵌套组件初始化创建阶段"><a href="#嵌套组件初始化创建阶段" class="headerlink" title="嵌套组件初始化创建阶段"></a>嵌套组件初始化创建阶段</h3><p>我们再看一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        console.log(&apos;constructor---Parent&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount---Parent&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount---Parent&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render---Parent&apos;);</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;Child /&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        console.log(&apos;constructor---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render---Child&apos;)</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                Child</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这是一个最普通的嵌套组件，我们在chrome中检验一下结果：<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG18.png" alt="嵌套组件初始化结果"><br>我们可以看到嵌套组件的执行顺序为：</p>
 <ul>
-<li>js会将任务分为同步任务和异步任务，同步任务进入主线程，异步任务进入Event Table，并且注册回调函数，</li>
+<li>父组件：constructor -&gt; componentWillMount -&gt; render；</li>
 </ul>
 <ul>
-<li>回调函数进入Event Queue;</li>
+<li>在父组件render的时候开始初始化创建子组件；</li>
 </ul>
 <ul>
-<li>主线程的任务执行完毕，到Event Queue中读取对应的函数，然后进入主线程去执行。<br>以上会重复执行，这就是js的执行机制，也是事件循环(Event Loop)。  </li>
-</ul>
-<p>知道了这些后，再看上面的代码，我们知道了<code>setTimeout</code>属于异步操作，会进入Event Table,等待主线程任务执行完毕才会去执行。但是<code>setTimeout(function(){},0)</code>是不是会立即呢？答案是不会。因为<code>setTimeout(fn, 0)</code>是指当主线程任务执行完毕后会立即执行，不需要再等待多少秒后再执行，所以我们会看到这段代码的结果是<code>bdaec</code>。</p>
-<p>接着我们再看一段代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;</span><br><span class="line">    console.log(&apos;a&apos;)</span><br><span class="line">&#125;,0)</span><br><span class="line">new Promise(function(resolve)&#123;</span><br><span class="line">    console.log(&apos;b&apos;)</span><br><span class="line">    resolve()</span><br><span class="line">&#125;).then(res =&gt; &#123;</span><br><span class="line">    console.log(&apos;c&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&apos;d&apos;)</span><br></pre></td></tr></table></figure></p>
-<p>按照我们上面的同步异步的执行机制，我们可以知道这段代码会进行以下操作：</p>
-<ul>
-<li>异步代码<code>setTimeout</code>进入Event Table</li>
+<li>子组件：constructor -&gt; componentWillMount -&gt; render -&gt; componentDidMount；</li>
 </ul>
 <ul>
-<li>执行同步代码<code>Promise</code>，打印b</li>
+<li>最后子组件执行完毕后，再回到父组件执行componentDidMount。</li>
+</ul>
+<h2 id="组件更新-Updating-阶段"><a href="#组件更新-Updating-阶段" class="headerlink" title="组件更新(Updating)阶段"></a>组件更新(Updating)阶段</h2><p>如果要触发组件更新有两种情况（不考虑Redux、Mobx等数据流管理工具）：</p>
+<ul>
+<li>setState更新state后触发组件自身更新</li>
 </ul>
 <ul>
-<li><code>Promise.then</code>进入Event Table</li>
+<li>父组件更新后触发子组件的更新</li>
+</ul>
+<p>第一种情况是当前组件内部的更新，第二种情况是由于父组件更新导致子组件的更新。这两种情况都会触发更新，但是有部分生命周期函数的执行不一样，我们先看第一种情况：</p>
+<h3 id="setState触发的组件自身更新"><a href="#setState触发的组件自身更新" class="headerlink" title="setState触发的组件自身更新"></a>setState触发的组件自身更新</h3><p>先看下面一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        console.log(&apos;constructor&apos;);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount&apos;);</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillUpdate()&#123;</span><br><span class="line">        console.log(&apos;componentWillUpdate&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate()&#123;</span><br><span class="line">        console.log(&apos;componentDidUpdate&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render&apos;);</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                Index</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着在chrome中验证一下结果：<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG21.png" alt="setState更新的执行顺序"><br>通过这个结果我们可以得到以下的结论：<br>更新state后的组件自身更新生命周期执行顺序：componentWillUpdate -&gt; render -&gt; componentDidUpdate</p>
+<h3 id="父组件更新触发的子组件更新"><a href="#父组件更新触发的子组件更新" class="headerlink" title="父组件更新触发的子组件更新"></a>父组件更新触发的子组件更新</h3><p>这种情况是在嵌套组件中，直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        console.log(&apos;constructor---Parent&apos;);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount---Parent&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount---Parent&apos;);</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillUpdate()&#123;</span><br><span class="line">        console.log(&apos;componentWillUpdate---Parent&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillReceiveProps(nextProps)&#123;</span><br><span class="line">        console.log(&apos;componentWillReceiveProps---Parent&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate()&#123;</span><br><span class="line">        console.log(&apos;componentDidUpdate---Parent&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render---Parent&apos;);</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;Child /&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        console.log(&apos;constructor---Child&apos;)</span><br><span class="line">        this.state = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        console.log(&apos;componentWillMount---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        console.log(&apos;componentDidMount---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentWillReceiveProps(nextProps)&#123;</span><br><span class="line">        console.log(&apos;componentWillReceiveProps---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentWillUpdate(nextProps, nextState) &#123;</span><br><span class="line">        console.log(&apos;componentWillUpdate---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidUpdate(prevProps, prevState) &#123;</span><br><span class="line">        console.log(&apos;componentDidUpdate---Child&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        console.log(&apos;render---Child&apos;)</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                Child</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在chrome中验证一下结果：<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/WechatIMG22.png" alt="嵌套组件更新执行顺序"><br>从这个结果中我们可以看到，只有子组件的componentWillReceiveProps方法执行了，我们可以得到以下结论：</p>
+<ul>
+<li>父组件执行更新：componentWillUpdate -&gt; render</li>
 </ul>
 <ul>
-<li>执行同步代码，打印d</li>
+<li>父组件render后开始更新子组件</li>
 </ul>
 <ul>
-<li>主线程执行完毕，到Event Queue中读取对应的函数，并放到主线程中执行</li>
-</ul>
-<p>按照之前的理解，这个时候应该是先打印a再打印c，但是我们到chrome中验证一下发现结果是先打印c再打印a，这是为什么呢？</p>
-<h2 id="宏任务和微任务"><a href="#宏任务和微任务" class="headerlink" title="宏任务和微任务"></a>宏任务和微任务</h2><p>查阅了一些文章后，原来js将任务分为了更精细的宏任务(macro-task)和微任务(micro-task): </p>
-<ul>
-<li>宏任务：包括整体代码的script、setTimeout、setInterval</li>
+<li>子组件执行更新：componentWillReceiveProps -&gt; componentWillUpdate -&gt; render -&gt; componentDidUpdate</li>
 </ul>
 <ul>
-<li>微任务：Promise、process.nextTick(暂不了解,后续学习)</li>
+<li>子组件更新完毕后，父组件执行componentDidUpdate，结束更新。</li>
 </ul>
-<p>宏任务和微任务之间的执行顺序又是什么呢？我们看下面这张图(出处在文章尾部):<br><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/cfbd39ddcbf42a5bc18725ea0560dc10.png" alt="引用地址在文章结尾"><br>从这张图里我们可以知道：</p>
+<h2 id="组件卸载-Unmounting-阶段"><a href="#组件卸载-Unmounting-阶段" class="headerlink" title="组件卸载(Unmounting)阶段"></a>组件卸载(Unmounting)阶段</h2><p>在这个阶段，组件只会执行一个生命周期函数：componentWillUnmount，在这个函数中，我们可以做一些初始化数据的操作。防止组件下次渲染的时候保留了上次的数据。<br>同上面两个阶段，这个阶段，也会出现在嵌套组件中，但是却和之前的执行顺序不太一样：</p>
 <ul>
-<li>js将代码分为宏任务和微任务，先进入宏任务中执行</li>
-</ul>
-<ul>
-<li>宏任务执行结束后，查看是否有可执行的微任务</li>
+<li>父组件执行componentWillUnmount</li>
 </ul>
 <ul>
-<li>有微任务就执行微任务，然后进行下一个宏任务</li>
+<li>子组件执行componentWillUnmount</li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>通过上面的解析，我们可以清晰的知道组件的生命周期执行顺序了：</p>
+<ul>
+<li>初始化创建组件阶段：<br>  父组件：constructor -&gt; componentWillMount -&gt; render -&gt;<br>  子组件：constructor -&gt; componentWillMount -&gt; render -&gt; componentDidMount -&gt;<br>  父组件：componentDidMount</li>
 </ul>
 <ul>
-<li>没有微任务则直接进行下一个宏任务</li>
-</ul>
-<p>那么再看我们之前的代码，我们就可以明白为什么结果是先打印c再打印a:</p>
-<ul>
-<li>整段代码作为宏任务进入主线程</li>
+<li>更新阶段：<br>  父组件：componentWillUpdate -&gt; render -&gt;<br>  子组件：componentWillReceiveProps -&gt; componentWillUpdate -&gt; render -&gt; componentDidUpdate -&gt;<br>  父组件：componentDidUpdate</li>
 </ul>
 <ul>
-<li><code>setTimeout</code>进入Event Table，然后注册回调函数，分发宏任务到Event Queue</li>
+<li>卸载阶段：<br>  父组件：componentWillUnmount<br>  子组件：componentWillUnmount</li>
 </ul>
-<ul>
-<li><code>new Promise</code>立即执行，打印b，<code>then</code>进入Event Table, 注册回调函数，分发微任务到Event Queue</li>
-</ul>
-<ul>
-<li><code>console.log()</code>立即执行，打印d</li>
-</ul>
-<ul>
-<li>到此第一个宏任务执行完毕，然后查看是否有微任务</li>
-</ul>
-<ul>
-<li>有微任务<code>then</code>函数，则执行<code>then</code>函数，打印c</li>
-</ul>
-<ul>
-<li>微任务执行完毕，开始执行新的宏任务<code>setTimeout</code>的回调函数,打印a</li>
-</ul>
-<p>由此我们就了解到js的执行机制。</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本文是在看到一些文章后，自己所理解的js执行机制，如有不对，请指出。写完这篇文章后，自己对js的事件循环也有了一个大概的了解，虽然具体的原理和底层的堆、栈等还一知半解，但是后续会努力学习加深自己的理解。</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
-<p><a href="https://juejin.im/post/59e85eebf265da430d571f89" target="_blank" rel="noopener">这一次，彻底弄懂 JavaScript 执行机制</a></p>
-</blockquote>
+<p>通过这些代码的检验，得到了以上的结论，当然这些生命周期函数只是常用的，还有一些不常用的大家可以参考一下官网文档。其中有一个shouldComponentUpdate函数是React控制组件更新进行优化的一个生命周期函数，大家可以了解一下。</p>
 
       
     </div>
@@ -618,6 +590,8 @@
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
+            <a href="/tags/React/" rel="tag"># React</a>
+          
         </div>
       
 
@@ -629,8 +603,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/29/Git使用记录/" rel="next" title="Git使用记录">
-                <i class="fa fa-chevron-left"></i> Git使用记录
+              <a href="/2019/05/04/setState同步异步问题/" rel="next" title="setState同步异步问题">
+                <i class="fa fa-chevron-left"></i> setState同步异步问题
               </a>
             
           </div>
@@ -638,10 +612,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/04/setState同步异步问题/" rel="prev" title="setState同步异步问题">
-                setState同步异步问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -816,7 +786,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步和异步"><span class="nav-number">1.</span> <span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宏任务和微任务"><span class="nav-number">2.</span> <span class="nav-text">宏任务和微任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">3.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#组件初始化创建-Mounting-阶段"><span class="nav-number">1.</span> <span class="nav-text">组件初始化创建(Mounting)阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套组件初始化创建阶段"><span class="nav-number">1.1.</span> <span class="nav-text">嵌套组件初始化创建阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件更新-Updating-阶段"><span class="nav-number">2.</span> <span class="nav-text">组件更新(Updating)阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setState触发的组件自身更新"><span class="nav-number">2.1.</span> <span class="nav-text">setState触发的组件自身更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#父组件更新触发的子组件更新"><span class="nav-number">2.2.</span> <span class="nav-text">父组件更新触发的子组件更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件卸载-Unmounting-阶段"><span class="nav-number">3.</span> <span class="nav-text">组件卸载(Unmounting)阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
             
 
           </div>
@@ -1032,9 +1002,9 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2019/04/11/JS事件循环/";
-    this.page.identifier = "2019/04/11/JS事件循环/";
-    this.page.title = 'JS事件循环(Event Loop)';
+    this.page.url = "http://yoursite.com/2019/05/15/React生命周期执行顺序详解/";
+    this.page.identifier = "2019/05/15/React生命周期执行顺序详解/";
+    this.page.title = 'React生命周期执行顺序详解';
     };
   function loadComments() {
     var d = document, s = d.createElement('script');
