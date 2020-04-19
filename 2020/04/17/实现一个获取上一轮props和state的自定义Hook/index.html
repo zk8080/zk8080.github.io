@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="最近在项目中使用了React Hooks，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hooks了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Cla">
-<meta name="keywords" content="React,React Hooks">
+  <meta name="description" content="最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class">
+<meta name="keywords" content="React,React Hook">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现一个获取上一轮props和state的自定义Hook">
 <meta property="og:url" content="http://yoursite.com/2020/04/17/实现一个获取上一轮props和state的自定义Hook/index.html">
 <meta property="og:site_name" content="ZKAT">
-<meta property="og:description" content="最近在项目中使用了React Hooks，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hooks了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Cla">
+<meta property="og:description" content="最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-19T14:52:46.456Z">
+<meta property="og:updated_time" content="2020-04-19T15:01:13.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现一个获取上一轮props和state的自定义Hook">
-<meta name="twitter:description" content="最近在项目中使用了React Hooks，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hooks了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Cla">
+<meta name="twitter:description" content="最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class">
 
 
 
@@ -412,7 +412,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-19 22:52:46" itemprop="dateModified" datetime="2020-04-19T22:52:46+08:00">2020-04-19</time>
+                <time title="修改时间：2020-04-19 23:01:13" itemprop="dateModified" datetime="2020-04-19T23:01:13+08:00">2020-04-19</time>
               
             
           </span>
@@ -494,18 +494,18 @@
       
 
       
-        <p>最近在项目中使用了React Hooks，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hooks了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class组件转换成Hooks的过程中，发现需要在组件中获取上一轮的props和state，但是内置的Hooks Api中并没有提供这个方法，在文档中找到一个可以自定义的Hooks，在此记录下。直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const usePrevious = (preValue) =&gt; &#123;</span><br><span class="line">    const ref = useRef();</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">        ref.current = preValue;</span><br><span class="line">    &#125;, [preValue])</span><br><span class="line">    </span><br><span class="line">    return ref.current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class组件转换成Hook的过程中，发现需要在组件中获取上一轮的props和state，但是内置的Hook Api中并没有提供这个方法，在文档中找到一个可以自定义的Hook，在此记录下。直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const usePrevious = (preValue) =&gt; &#123;</span><br><span class="line">    const ref = useRef();</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">        ref.current = preValue;</span><br><span class="line">    &#125;, [preValue])</span><br><span class="line">    </span><br><span class="line">    return ref.current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果不太能理解这段代码为什么可以取到上一次的值，那么可以把这段代码放在我们的业务代码中去看一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Counter() &#123;</span><br><span class="line">    const [count, setCount] = useState(0);</span><br><span class="line"></span><br><span class="line">    const prevCountRef = useRef();</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">        prevCountRef.current = count;</span><br><span class="line">    &#125;);</span><br><span class="line">    const prevCount = prevCountRef.current;</span><br><span class="line"></span><br><span class="line">    return &lt;h1&gt;Now: &#123;count&#125;, before: &#123;prevCount&#125;&lt;/h1&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>另外还要记住两点：</p>
 <ul>
 <li>useRef会保持引用不变，ref.current的值改变并不会引起组件重新渲染</li>
 </ul>
 <ul>
-<li>React Hooks中函数式组件的生命周期中，useEffect是在jsx渲染之后执行的</li>
+<li>React Hook中函数式组件的生命周期中，useEffect是在jsx渲染之后执行的</li>
 </ul>
 <p>只要记住这两点，再结合上面这段代码，你就会知道为什么我们可以获取到上一次的props和state了。</p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
-<p><a href="https://react.docschina.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state" target="_blank" rel="noopener">React官方文档</a><br><a href="https://www.zhihu.com/question/346140951" target="_blank" rel="noopener">useRef为什么可以用来封装成usePrevious?(知乎)</a><br><a href="https://zhuanlan.zhihu.com/p/117577458" target="_blank" rel="noopener">一篇文章，带你学会useRef、useCallback、useMemo(知乎)</a></p>
+<p><a href="https://react.docschina.org/docs/hook-faq.html#how-to-get-the-previous-props-or-state" target="_blank" rel="noopener">React官方文档</a><br><a href="https://www.zhihu.com/question/346140951" target="_blank" rel="noopener">useRef为什么可以用来封装成usePrevious?(知乎)</a><br><a href="https://zhuanlan.zhihu.com/p/117577458" target="_blank" rel="noopener">一篇文章，带你学会useRef、useCallback、useMemo(知乎)</a></p>
 </blockquote>
 
       
@@ -532,7 +532,7 @@
           
             <a href="/tags/React/" rel="tag"># React</a>
           
-            <a href="/tags/React-Hooks/" rel="tag"># React Hooks</a>
+            <a href="/tags/React-Hook/" rel="tag"># React Hook</a>
           
         </div>
       
@@ -666,6 +666,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     
