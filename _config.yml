@@ -81,7 +81,7 @@ deploy:
   type: git
   repo: 
     github: https://github.com/zk8080/zk8080.github.io.git
-    coding: https://git.dev.tencent.com/zk8080/zk8ling8ling.coding.me.git
+    coding: https://e.coding.net/zk8080/zk8ling8ling.coding.me/zk8ling8ling.coding.me.git
   branch: master
 
 symbols_count_time: #文章内是否显示 
