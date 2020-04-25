@@ -96,27 +96,20 @@
 
 
 
-  <meta name="description" content="之前一直对双向数据绑定一知半解，只知道是通过Object.definedProperty进行数据劫持，配合发布-订阅模式进行视图更新。最近看了一些文章，自己也加深了对双向数据绑定的理解，所以来记录一下。 双向数据绑定实现思路我们要实现双向数据绑定可以参考下图思路：  利用Proxy或Object.defineProperty生成的Observer针对对象/对象的属性进行”劫持”,在属性发生变化后通">
-<meta name="keywords" content="React,JavaScript,Vue">
-<meta property="og:type" content="article">
-<meta property="og:title" content="浅析双向数据绑定原理">
-<meta property="og:url" content="http://yoursite.com/2019/12/12/浅析双向数据绑定原理/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="ZKAT">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="ZKAT">
-<meta property="og:description" content="之前一直对双向数据绑定一知半解，只知道是通过Object.definedProperty进行数据劫持，配合发布-订阅模式进行视图更新。最近看了一些文章，自己也加深了对双向数据绑定的理解，所以来记录一下。 双向数据绑定实现思路我们要实现双向数据绑定可以参考下图思路：  利用Proxy或Object.defineProperty生成的Observer针对对象/对象的属性进行”劫持”,在属性发生变化后通">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/162b38ab2d635662.png">
-<meta property="og:updated_time" content="2019-12-13T12:22:13.347Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅析双向数据绑定原理">
-<meta name="twitter:description" content="之前一直对双向数据绑定一知半解，只知道是通过Object.definedProperty进行数据劫持，配合发布-订阅模式进行视图更新。最近看了一些文章，自己也加深了对双向数据绑定的理解，所以来记录一下。 双向数据绑定实现思路我们要实现双向数据绑定可以参考下图思路：  利用Proxy或Object.defineProperty生成的Observer针对对象/对象的属性进行”劫持”,在属性发生变化后通">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/162b38ab2d635662.png">
+<meta name="twitter:title" content="ZKAT">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/12/浅析双向数据绑定原理/">
+  <link rel="canonical" href="http://yoursite.com/page/2/">
 
 
 
@@ -126,7 +119,7 @@
   };
 </script>
 
-  <title>浅析双向数据绑定原理 | ZKAT</title>
+  <title>ZKAT</title>
   
 
 
@@ -174,7 +167,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -337,9 +331,9 @@
           
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -354,7 +348,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/12/浅析双向数据绑定原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/HelloWorld/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZK8080">
@@ -371,8 +365,10 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">浅析双向数据绑定原理
-
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/26/HelloWorld/" class="post-title-link" itemprop="url">HelloWorld</a>
               
             
           </h2>
@@ -397,24 +393,12 @@
                 
               
 
-              <time title="创建时间：2019-12-12 16:00:56" itemprop="dateCreated datePublished" datetime="2019-12-12T16:00:56+08:00">2019-12-12</time>
+              <time title="创建时间：2019-03-26 21:18:55 / 修改时间：21:32:05" itemprop="dateCreated datePublished" datetime="2019-03-26T21:18:55+08:00">2019-03-26</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-12-13 20:22:13" itemprop="dateModified" datetime="2019-12-13T20:22:13+08:00">2019-12-13</time>
               
             
           </span>
@@ -431,7 +415,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/生活/" itemprop="url" rel="index"><span itemprop="name">生活</span></a></span>
 
                 
                 
@@ -450,8 +434,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/12/12/浅析双向数据绑定原理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/12/12/浅析双向数据绑定原理/" itemprop="commentCount"></span>
+                <a href="/2019/03/26/HelloWorld/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/26/HelloWorld/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -460,13 +444,6 @@
           
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="post-meta-item-icon">
-            <i class="fa fa-eye"></i>
-             阅读次数： 
-            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
-            </span>
           
 
           
@@ -480,7 +457,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">5.3k</span>
+                <span title="本文字数">93</span>
               
 
               
@@ -494,7 +471,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">13 分钟</span>
+                <span title="阅读时长">1 分钟</span>
               
             </div>
           
@@ -514,29 +491,23 @@
       
 
       
-        <p>之前一直对双向数据绑定一知半解，只知道是通过<code>Object.definedProperty</code>进行数据劫持，配合发布-订阅模式进行视图更新。最近看了一些文章，自己也加深了对双向数据绑定的理解，所以来记录一下。</p>
-<h2 id="双向数据绑定实现思路"><a href="#双向数据绑定实现思路" class="headerlink" title="双向数据绑定实现思路"></a>双向数据绑定实现思路</h2><p>我们要实现双向数据绑定可以参考下图思路：</p>
-<ul>
-<li>利用Proxy或Object.defineProperty生成的Observer针对对象/对象的属性进行”劫持”,在属性发生变化后通知订阅者</li>
-</ul>
-<ul>
-<li>解析器Compile解析模板中的Directive(指令)，收集指令所依赖的方法和数据,等待数据变化然后进行渲染</li>
-</ul>
-<ul>
-<li>Watcher属于Observer和Compile桥梁,它将接收到的Observer产生的数据变化,并根据Compile提供的指令进行视图渲染,使得数据变化促使视图变化</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/zk8080/blog-picture/master/img/162b38ab2d635662.png" alt></p>
-<h2 id="数据劫持"><a href="#数据劫持" class="headerlink" title="数据劫持"></a>数据劫持</h2><p>数据劫持简单来说就是对对象/对象属性进行拦截，当属性发生改变时，我们可以获取改变进行一些操作。数据劫持目前有两种方法，<code>Object.definedProperty</code>和<code>Proxy</code>。本文我们主要利用<code>Object.definedProperty</code>来实现双向数据绑定。<br>首先我们利用数据劫持实现一个Observer监听者，监听数据变更，进行依赖收集和派发更新：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* @description: 监听者</span><br><span class="line">* @param &#123;type&#125; data: 需要监听的数据</span><br><span class="line">* @return: </span><br><span class="line">*/</span><br><span class="line">function Observer(data) &#123;</span><br><span class="line">    this.data = data;</span><br><span class="line">    this.walk(data);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">Observer.prototype.walk = function (data) &#123;</span><br><span class="line">    // 循环遍历属性，进行拦截操作</span><br><span class="line">    Object.keys(data).forEach(key =&gt; defineReactive(data, key, data[key]))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function defineReactive(data, key, value) &#123;</span><br><span class="line">    // 对当前监听的值进行递归监听， 如果是复杂类型则继续监听，因为defineProperty只能监听一层属性</span><br><span class="line">    let childObser = observer(value);</span><br><span class="line">    Object.defineProperty(data, key, &#123;</span><br><span class="line">        enumerable: true,</span><br><span class="line">        configurable: true,</span><br><span class="line">        get: function () &#123;</span><br><span class="line">            // 在这里进行依赖收集</span><br><span class="line">            return value;</span><br><span class="line">        &#125;,</span><br><span class="line">        set: function (newValue) &#123;</span><br><span class="line">            if(value !== newValue)&#123;</span><br><span class="line">                value = newValue;</span><br><span class="line">                childObser = observer(value);</span><br><span class="line">                // 在这里派发更新</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">function observer(data) &#123;</span><br><span class="line">    // 如果传进来的数据不存在或者不是复杂类型 则直接返回即可</span><br><span class="line">    if(!data || typeof data !== &apos;object&apos;)&#123;</span><br><span class="line">        return data;</span><br><span class="line">    &#125;</span><br><span class="line">    return new Observer(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="依赖收集"><a href="#依赖收集" class="headerlink" title="依赖收集"></a>依赖收集</h2><p>监听者实现后，我们来实现依赖收集容器，也就是订阅发布中心(Dep)。它主要用于收集订阅者，然后在数据改变时，进行消息发布，执行订阅者的更新方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* @description: 订阅发布中心</span><br><span class="line">* @param &#123;type&#125; </span><br><span class="line">* @return: </span><br><span class="line">*/</span><br><span class="line">let uid = 0;</span><br><span class="line">function Dep() &#123;</span><br><span class="line">    // 设置id,用于区分新Watcher和只改变属性值后新产生的Watcher</span><br><span class="line">    this.id = uid ++;</span><br><span class="line">    // 用来存储订阅者的数组</span><br><span class="line">    this.subs = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 静态属性，指向当前的订阅者Watcher</span><br><span class="line">Dep.target = null;</span><br><span class="line"></span><br><span class="line">// 收集依赖， 触发订阅者Watcher中的addDep，将自身穿进去</span><br><span class="line">Dep.prototype.depend = function () &#123;</span><br><span class="line">    Dep.target.addDep(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 添加订阅者</span><br><span class="line">Dep.prototype.addSub = function (sub) &#123;</span><br><span class="line">    this.subs.push(sub)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 派发更新，触发订阅者Watcher的update方法</span><br><span class="line">Dep.prototype.notify = function () &#123;</span><br><span class="line">    this.subs.forEach(sub =&gt; sub.update())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>订阅发布中心很简单，需要注意的是<code>target</code>这个静态属性，这个属性指向订阅者Watcher，是Watcher和Dep进行关联的地方，也保证了同一时间只有一个Watcher。实现完发布订阅中心后，我们将监听者中的发布订阅的代码补充以下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function defineReactive(data, key, value) &#123;</span><br><span class="line">    const dep = new Dep();</span><br><span class="line">    // 对当前监听的值进行递归监听， 如果是复杂类型则继续监听，因为defineProperty只能监听一层属性</span><br><span class="line">    let childObser = observer(value);</span><br><span class="line">    Object.defineProperty(data, key, &#123;</span><br><span class="line">        enumerable: true,</span><br><span class="line">        configurable: true,</span><br><span class="line">        get: function () &#123;</span><br><span class="line">            // 在这里进行依赖收集</span><br><span class="line">            if(Dep.target)&#123;</span><br><span class="line">                dep.depend();</span><br><span class="line">            &#125;</span><br><span class="line">            return value;</span><br><span class="line">        &#125;,</span><br><span class="line">        set: function (newValue) &#123;</span><br><span class="line">            if(value !== newValue)&#123;</span><br><span class="line">                value = newValue;</span><br><span class="line">                childObser = observer(newValue);</span><br><span class="line">                // 在这里派发更新</span><br><span class="line">                dep.notify();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接下来我们实现订阅者：</p>
-<h2 id="订阅者"><a href="#订阅者" class="headerlink" title="订阅者"></a>订阅者</h2><p>订阅者Watcher主要是用来将观察的数据，触发监听者Observer中的<code>get</code>函数，进行依赖收集，并且将自己传递给订阅发布中心Dep，在Dep派发更新时，触发自己的update函数，更新视图。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* @description: 订阅者</span><br><span class="line">* @param &#123;type&#125; vm 被订阅的数据所在实例</span><br><span class="line">* @param &#123;type&#125; key 被订阅的数据属性</span><br><span class="line">* @param &#123;type&#125; callback 数据更新后的回调函数</span><br><span class="line">*/</span><br><span class="line">function Watcher(vm, key, callback ) &#123;</span><br><span class="line">    this.depId = &#123;&#125;; // 存储订阅者id，防止重复订阅</span><br><span class="line">    this.vm = vm;</span><br><span class="line">    this.key = key;</span><br><span class="line">    this.callback = callback;</span><br><span class="line">    this.val = this.get(); // 获取被观察的数据，进行依赖收集</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 依赖收集 将自己添加到发布订阅中心中的订阅者数组中</span><br><span class="line">Watcher.prototype.addDep = function (dep) &#123;</span><br><span class="line">    if( !this.depId.hasOwnProperty(dep.id) )&#123;</span><br><span class="line">        dep.addSub(this);</span><br><span class="line">        this.depId[dep.id] = dep;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 用于数据更新时，发布时执行的回调函数</span><br><span class="line">Watcher.prototype.update = function () &#123;</span><br><span class="line">    this.run();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Watcher.prototype.run = function () &#123;</span><br><span class="line">    const newVal = this.get();</span><br><span class="line">    if(this.val !== newVal)&#123;</span><br><span class="line">        this.val = newVal;</span><br><span class="line">        this.callback(newVal);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Watcher.prototype.get = function () &#123;</span><br><span class="line">    // 将Dep的target指向当前订阅者，用于依赖收集</span><br><span class="line">    Dep.target = this;</span><br><span class="line">    const val = this.vm.data[this.key]; //获取订阅的属性值，触发依赖收集</span><br><span class="line">    // 依赖收集完成后 清除当前订阅者</span><br><span class="line">    Dep.target = null;</span><br><span class="line">    return val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>我们已经把双向数据绑定所需要的监听者Observer、订阅发布中心Dep、订阅者Watcher都实现了。还差一个解析器Compile去解析模板中的指令来与订阅者和数据进行关联，进行依赖收集，收到数据更新后，进行视图更新，在这我们就不做具体的实现了，大家可以去看<a href="https://segmentfault.com/a/1190000006599500" target="_blank" rel="noopener">这篇文章</a>，这篇文章对双向数据绑定做了详细的介绍。接下来我们测试以下我们的双向数据绑定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function Vue(data, el, key) &#123;</span><br><span class="line">    this.data = data;</span><br><span class="line">    observer(data);</span><br><span class="line">    el.innerHTML = this.data[key];</span><br><span class="line">    new Watcher(this, key, function (value) &#123;</span><br><span class="line">        el.innerHTML = value;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const p = document.getElementById(&apos;p&apos;);</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line"></span><br><span class="line">const testVue = new Vue(&#123;</span><br><span class="line">    name: &apos;&apos;</span><br><span class="line">&#125;, p, &apos;name&apos;);</span><br><span class="line">input.addEventListener(&apos;keyup&apos;, function (e) &#123;</span><br><span class="line">    testVue.data.name = e.target.value;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>可以看到我们在input输入的时候，p标签内也会做实时更新。到此我们的双向数据绑定也就搞定了，不过具体详细的还是建议大家去读一下大佬们的文章。</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
-<p><a href="https://segmentfault.com/a/1190000006599500" target="_blank" rel="noopener">剖析Vue原理&amp;实现双向绑定MVVM</a><br><a href="https://juejin.im/post/5acd0c8a6fb9a028da7cdfaf#heading-11" target="_blank" rel="noopener">面试官: 实现双向绑定Proxy比defineproperty优劣如何?</a><br><a href="https://www.cnblogs.com/wangjiachen666/p/9883916.html" target="_blank" rel="noopener">通俗易懂了解Vue双向绑定原理及实现</a></p>
-</blockquote>
+        
+          
+            <p>
+              新的开始经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；希望从今天开始，自己能够坚持记录生活和工作上的一些事！加油！！！
 
+              
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/26/HelloWorld/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
       
     </div>
 
@@ -557,44 +528,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/React/" rel="tag"># React</a>
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/11/14/实现遵循Promise-A-规范的自定义Promise对象/" rel="next" title="实现遵循Promise/A+规范的自定义Promise对象">
-                <i class="fa fa-chevron-left"></i> 实现遵循Promise/A+规范的自定义Promise对象
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/04/17/实现一个获取上一轮props和state的自定义Hook/" rel="prev" title="实现一个获取上一轮props和state的自定义Hook">
-                实现一个获取上一轮props和state的自定义Hook <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -604,22 +545,18 @@
   </article>
 
 
-  </div>
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-      </div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -639,17 +576,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -762,23 +690,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#双向数据绑定实现思路"><span class="nav-number">1.</span> <span class="nav-text">双向数据绑定实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据劫持"><span class="nav-number">2.</span> <span class="nav-text">数据劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖收集"><span class="nav-number">3.</span> <span class="nav-text">依赖收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#订阅者"><span class="nav-number">4.</span> <span class="nav-text">订阅者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -951,10 +862,6 @@
 
 
   
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
 
   
 
@@ -976,28 +883,9 @@
   <script id="dsq-count-scr" src="https://zkat.disqus.com/count.js" async></script>
 
 
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2019/12/12/浅析双向数据绑定原理/";
-    this.page.identifier = "2019/12/12/浅析双向数据绑定原理/";
-    this.page.title = '浅析双向数据绑定原理';
-    };
-  function loadComments() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://zkat.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', '' + +new Date());
-    (d.head || d.body).appendChild(s);
-  }
-  
-    loadComments();
-  
-</script>
 
 
 
-
-
-  
 
 
   
