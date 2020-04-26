@@ -144,7 +144,7 @@ post_meta:
 
 # Please see doc for more details: https://molunerfinn.com/hexo-theme-melody-doc/additional-package-support.html#word-counting
 wordcount:
-  enable: false
+  enable: true
 
 toc:
   enable: true
@@ -213,13 +213,14 @@ disqus:
 # client_id:
 # client_secret:
 
-# gitalk:
-#   enable: false
-#   client_id:
-#   client_secret:
-#   repo:
-#   owner:
-#   admin:
+gitalk:
+  enable: true
+  client_id: 1d368ebd0edb204a9160
+  client_secret: 0a7474e9571342fdb562da7d34215bb700c653ee
+  repo: zk8080.github.io
+  owner: zk8080
+  admin: zk8080
+  distractionFreeMode: true
 
 # valine comment system. https://valine.js.org
 # valine:

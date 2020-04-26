@@ -18,6 +18,7 @@
     "hexo-renderer-pug": "^1.0.0",
     "hexo-renderer-stylus": "^1.1.0",
     "hexo-server": "^0.3.3",
-    "hexo-symbols-count-time": "^0.4.4"
+    "hexo-symbols-count-time": "^0.4.4",
+    "hexo-wordcount": "^6.0.1"
   }
 }
