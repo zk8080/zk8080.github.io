@@ -4,9 +4,9 @@
 
 # Site
 title: ZKAT
-subtitle:
-description:
-keywords:
+subtitle: 
+description: 前端小白的个人总结记录
+keywords: 
 author: ZK8080
 language: zh-Hans 
 timezone:
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next-new
+theme: melody
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
