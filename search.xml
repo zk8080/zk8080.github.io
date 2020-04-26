@@ -508,4 +508,37 @@
         <tag>JavaScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>实现防抖和节流</title>
+    <url>/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
+    <content><![CDATA[<p>在业务开发场景中，我们经常会使用到防抖和节流，我一般都是使用<code>Lodash</code>工具库直接调用这两个方法，今天自己来实现一下这两个方法。</p>
+<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖的含义：触发高频事件在n秒以后执行，如果在n秒之内再次触发事件，则重新计算时间<br>防抖的应用场景：</p>
+<ul>
+<li>autoComplete组件</li>
+</ul>
+<ul>
+<li>实时搜索框</li>
+</ul>
+<p>实现思路：<br>利用闭包缓存一个时间为n秒计时器，每次触发事件时，清除上一个计时器。<br>代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function debounce(fn, time) &#123;</span><br><span class="line">    // 利用闭包缓存一个定时器</span><br><span class="line">    let timeout = null;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行 则先清除上一个定时器</span><br><span class="line">        clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout((a) =&gt; &#123;</span><br><span class="line">            // 执行事件</span><br><span class="line">            fn.apply(this, arguments)</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流(throttle)"></a>节流(throttle)</h2><p>节流的含义：触发高频事件后，在n秒内只执行一次<br>节流的应用场景：</p>
+<ul>
+<li>监听滚动事件，实现懒加载等</li>
+</ul>
+<ul>
+<li>防止用户连续频繁的点击事件，如提交按钮等</li>
+</ul>
+<p>实现节流有两种方案：</p>
+<ul>
+<li>利用闭包缓存一个是否可以执行函数的变量，配合定时器去修改变量来执行函数。</li>
+</ul>
+<ul>
+<li>利用闭包缓存上一次的时间戳，判断当前执行的时间和上一次时间的间隔是否大于规定时间。</li>
+</ul>
+<p>定时器代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 设置一个标识 来判断延时函数是否可以执行，默认可以执行</span><br><span class="line">    let isCanRun = true;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行先判断是否可以执行延迟函数</span><br><span class="line">        if(!isCanRun) return;</span><br><span class="line">        // 将标识设置为false，表示有延时函数需要执行</span><br><span class="line">        isCanRun = false;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 在函数执行完后 延时将标识设置为true，</span><br><span class="line">            isCanRun = true;</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>时间戳代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 缓存上次执行时间的变量</span><br><span class="line">    let activeTime = 0;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 获取每次执行的时间戳</span><br><span class="line">        const curTime = +new Date();</span><br><span class="line">        // 判断当前执行的时间和缓存的时间戳的时间差是否大于要延时的时间 </span><br><span class="line">        if( curTime - activeTime &gt; time )&#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 缓存当前时间</span><br><span class="line">            activeTime = curTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
 </search>
