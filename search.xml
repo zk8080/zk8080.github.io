@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>HelloWorld</title>
+    <url>/2019/03/26/HelloWorld/</url>
+    <content><![CDATA[<h2 id="新的开始"><a href="#新的开始" class="headerlink" title="新的开始"></a>新的开始</h2><p>经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；<br>希望从今天开始，自己能够坚持记录生活和工作上的一些事！<br>加油！！！</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Antd的Form组件配合Mobx双向数据绑定</title>
     <url>/2019/08/09/Antd%E7%9A%84Form%E7%BB%84%E4%BB%B6%E9%85%8D%E5%90%88Mobx%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A/</url>
     <content><![CDATA[<p>最近忙于赶项目，一直没有时间去更新博客，今天得空，正好把最近在项目中使用Mobx和Antd中的Form组件进行双向数据绑定的方法记录一下。</p>
@@ -34,15 +46,59 @@
       </tags>
   </entry>
   <entry>
-    <title>HelloWorld</title>
-    <url>/2019/03/26/HelloWorld/</url>
-    <content><![CDATA[<h2 id="新的开始"><a href="#新的开始" class="headerlink" title="新的开始"></a>新的开始</h2><p>经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；<br>希望从今天开始，自己能够坚持记录生活和工作上的一些事！<br>加油！！！</p>
+    <title>React手动重新渲染子组件</title>
+    <url>/2019/08/15/React%E6%89%8B%E5%8A%A8%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E5%AD%90%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<p>昨天在开发APP项目时，需要实现一个上传图片和视频，然后上传后的图片和视频进行轮播的功能，轮播图使用的是第三方插件<code>react-native-snap-carousel</code>，在ios中使用时没有出现过兼容性问题，只是需要在轮播的数据更新时，需要手动调用一下<code>snapToItem</code>方法，展示其对应的下标。然而在android中发现该方法并不生效，并且组件的<code>firstItem</code>属性也不会生效，就导致了上传后数据更新的时候下标依然保留在上一次，但是需求方想要每次展示最新上传的图片或视频。后来发现该组件的<code>firstItem</code>属性会在组件第一次渲染的时候生效，所以想到了一个方法就是将该组件进行手动卸载和挂载使其重新渲染。自己捣鼓了半天没有好的方法，后来在老大的指点下搞定了，然后在这记录一下，如何手动重新渲染子组件。直接上代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            isShow: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate(prevProps)&#123;</span><br><span class="line">        // 判断是否需要更新</span><br><span class="line">        if(this.props.data != prevProps.data)&#123;</span><br><span class="line">            // 先将组件卸载</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                isShow: false</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        // 利用setTimeout异步操作，再将组件重新渲染， 不过会有一下抖动</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                isShow: true</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;, 100)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        const &#123;isShow&#125; = this.state;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    isShow? &lt;Children/&gt;:null</span><br><span class="line">                &#125;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
-        <category>生活</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>生活</tag>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>setState同步异步问题</title>
+    <url>/2019/05/04/setState%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在React开发中，setState一般都会被认为是异步的。但是最近在掘金上看到一篇文章 <a href="https://juejin.im/post/5b45c57c51882519790c7441" target="_blank" rel="noopener">你真的理解setState吗？</a> ，看完后发现setState并不是想象中的异步那么简单。</p>
+<h1 id="setState是异步的吗？"><a href="#setState是异步的吗？" class="headerlink" title="setState是异步的吗？"></a>setState是异步的吗？</h1><p>在React官方文档中，有这样一段话：</p>
+<blockquote>
+<p>setState()不总是立刻更新组件。其可能是成批处理或推迟更新。这使得在调用setState()后立刻读取this.state变成一个潜在陷阱。代替地，使用componentDidUpdate或一个setState回调（setState(updater, callback)），当中的每个方法都会保证在更新被应用之后触发。</p>
+</blockquote>
+<p>读完这段话，我们本能的认为setState就是异步的，因为连官方都推荐我们在componentDidUpdate生命周期和setState的callback中去读取this.state。<br>接下来我们用代码去检验一下setState的同步异步：</p>
+<h2 id="生命周期中的setState"><a href="#生命周期中的setState" class="headerlink" title="生命周期中的setState"></a>生命周期中的setState</h2><pre><code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log( this.state.count )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidUpdate()&#123;</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                测试</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>在上面这个例子中，我们在componentDidMount中使用setState去更新了count，然后立马打印了一下count；接着在componentDidUpdate中我们也打印了一下count,然后我们在chrome中查看一下控制台，输出为：0 1。这个结果我们并不意外，在开发中这种代码是我们经常遇到，这也说明在生命周期中setState是异步的。</p>
+<h2 id="合成事件中的setState"><a href="#合成事件中的setState" class="headerlink" title="合成事件中的setState"></a>合成事件中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    onClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;button</span><br><span class="line">                    onClick=&#123;this.onClick&#125;</span><br><span class="line">                &gt;</span><br><span class="line">                    测试</span><br><span class="line">                &lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下这个例子中，我们在onClick事件中使用setState去更新count，接着立马打印了count；我们到chrome中去验证一下，发现打印的还是0，这说明在合成事件中setState也是异步的。</p>
+<h2 id="setTimeout中的setState"><a href="#setTimeout中的setState" class="headerlink" title="setTimeout中的setState"></a>setTimeout中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                count: 1</span><br><span class="line">            &#125;)</span><br><span class="line">            console.log(this.state.count)</span><br><span class="line">        &#125;, 0)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                测试</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们在componentDidMount中定义了一个setTimeout，并且在回调函数中使用setState更新count，然后打印了count；我们在chrome中验证一下，发现控制台中输出的是：1。这个和前面的结果不同，count被实时读取到了，也说明在setTimeout中setState是同步的。</p>
+<h2 id="原生事件中的setState"><a href="#原生事件中的setState" class="headerlink" title="原生事件中的setState"></a>原生事件中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        document.querySelector(&apos;button&apos;).addEventListener(&apos;click&apos;, this.onClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    onClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;button&gt;</span><br><span class="line">                    测试</span><br><span class="line">                &lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，我们给button按钮使用原生<code>addEventListener</code>的方式，绑定了click事件，并在click事件中使用setState去更新count，然后立马打印了count，接下来我们在chrome中验证一下，发现控制台中输出的是：1。这个结果和setTimeout中setState的结果一致，说明在原生事件中setState也是同步的。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过上面的例子，我们可以得到一下结论：</p>
+<ul>
+<li>在生命周期函数中，setState是异步的；</li>
+</ul>
+<ul>
+<li>在合成事件中，setState是异步的；</li>
+</ul>
+<ul>
+<li>在异步操作中，setState是同步的；</li>
+</ul>
+<ul>
+<li>在原生事件中，setState是同步的。</li>
+</ul>
+<p>目前得到了这些结论，但是我们并不清楚其中的原理是什么，我查阅了一些资料，发现自己还是不能理解其中奥妙，所以就不在此误导大家，但是自己会努力学习理解这个问题。不过大家可以参考下面文章去发现更深层次的原理：</p>
+<blockquote>
+<p><a href="https://juejin.im/post/5b45c57c51882519790c7441" target="_blank" rel="noopener">你真的理解setState吗？</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -135,58 +191,60 @@
       </tags>
   </entry>
   <entry>
-    <title>setState同步异步问题</title>
-    <url>/2019/05/04/setState%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在React开发中，setState一般都会被认为是异步的。但是最近在掘金上看到一篇文章 <a href="https://juejin.im/post/5b45c57c51882519790c7441" target="_blank" rel="noopener">你真的理解setState吗？</a> ，看完后发现setState并不是想象中的异步那么简单。</p>
-<h1 id="setState是异步的吗？"><a href="#setState是异步的吗？" class="headerlink" title="setState是异步的吗？"></a>setState是异步的吗？</h1><p>在React官方文档中，有这样一段话：</p>
+    <title>我所理解的闭包</title>
+    <url>/2020/04/29/%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E9%97%AD%E5%8C%85/</url>
+    <content><![CDATA[<p>在我的上一篇文章<a href="https://zkat.site/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/" target="_blank" rel="noopener">实现防抖和节流</a>中，都是利用闭包缓存变量去实现的，那么今天就来说一下我所理解的闭包是什么。这也是面试中必不可少的部分。本文参考了冴羽大神的JavaScript深入系列的<a href="https://github.com/mqyqingfeng/Blog/issues/8" target="_blank" rel="noopener">JavaScript深入之执行上下文</a>和<a href="https://github.com/mqyqingfeng/Blog/issues/9" target="_blank" rel="noopener">JavaScript深入之闭包</a>，大家可以深入了解下。</p>
+<h2 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h2><p>MDN中对闭包的定义为：</p>
 <blockquote>
-<p>setState()不总是立刻更新组件。其可能是成批处理或推迟更新。这使得在调用setState()后立刻读取this.state变成一个潜在陷阱。代替地，使用componentDidUpdate或一个setState回调（setState(updater, callback)），当中的每个方法都会保证在更新被应用之后触发。</p>
+<p>函数和对其周围状态（lexical environment，词法环境）的引用捆绑在一起构成闭包（closure）。也就是说，闭包可以让你从内部函数访问外部函数作用域。在 JavaScript 中，每当函数被创建，就会在函数生成时生成闭包。</p>
 </blockquote>
-<p>读完这段话，我们本能的认为setState就是异步的，因为连官方都推荐我们在componentDidUpdate生命周期和setState的callback中去读取this.state。<br>接下来我们用代码去检验一下setState的同步异步：</p>
-<h2 id="生命周期中的setState"><a href="#生命周期中的setState" class="headerlink" title="生命周期中的setState"></a>生命周期中的setState</h2><pre><code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log( this.state.count )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidUpdate()&#123;</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                测试</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</code></pre><p>在上面这个例子中，我们在componentDidMount中使用setState去更新了count，然后立马打印了一下count；接着在componentDidUpdate中我们也打印了一下count,然后我们在chrome中查看一下控制台，输出为：0 1。这个结果我们并不意外，在开发中这种代码是我们经常遇到，这也说明在生命周期中setState是异步的。</p>
-<h2 id="合成事件中的setState"><a href="#合成事件中的setState" class="headerlink" title="合成事件中的setState"></a>合成事件中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    onClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;button</span><br><span class="line">                    onClick=&#123;this.onClick&#125;</span><br><span class="line">                &gt;</span><br><span class="line">                    测试</span><br><span class="line">                &lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>看一下这个例子中，我们在onClick事件中使用setState去更新count，接着立马打印了count；我们到chrome中去验证一下，发现打印的还是0，这说明在合成事件中setState也是异步的。</p>
-<h2 id="setTimeout中的setState"><a href="#setTimeout中的setState" class="headerlink" title="setTimeout中的setState"></a>setTimeout中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                count: 1</span><br><span class="line">            &#125;)</span><br><span class="line">            console.log(this.state.count)</span><br><span class="line">        &#125;, 0)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                测试</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，我们在componentDidMount中定义了一个setTimeout，并且在回调函数中使用setState更新count，然后打印了count；我们在chrome中验证一下，发现控制台中输出的是：1。这个和前面的结果不同，count被实时读取到了，也说明在setTimeout中setState是同步的。</p>
-<h2 id="原生事件中的setState"><a href="#原生事件中的setState" class="headerlink" title="原生事件中的setState"></a>原生事件中的setState</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Index extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        document.querySelector(&apos;button&apos;).addEventListener(&apos;click&apos;, this.onClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    onClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(this.state.count)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;button&gt;</span><br><span class="line">                    测试</span><br><span class="line">                &lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，我们给button按钮使用原生<code>addEventListener</code>的方式，绑定了click事件，并在click事件中使用setState去更新count，然后立马打印了count，接下来我们在chrome中验证一下，发现控制台中输出的是：1。这个结果和setTimeout中setState的结果一致，说明在原生事件中setState也是同步的。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过上面的例子，我们可以得到一下结论：</p>
+<p>按照这段话的理解，那么每个函数都会形成一个闭包，这和我们平时所理解的闭包不太一样，但是这是理论上的闭包定义，还有一个实践角度上的闭包：</p>
 <ul>
-<li>在生命周期函数中，setState是异步的；</li>
+<li>即使创建该函数的上下文已经销毁，它仍然存在（比如，内部函数从父函数中返回）</li>
 </ul>
 <ul>
-<li>在合成事件中，setState是异步的；</li>
+<li>在代码中引用了自由变量</li>
 </ul>
-<ul>
-<li>在异步操作中，setState是同步的；</li>
-</ul>
-<ul>
-<li>在原生事件中，setState是同步的。</li>
-</ul>
-<p>目前得到了这些结论，但是我们并不清楚其中的原理是什么，我查阅了一些资料，发现自己还是不能理解其中奥妙，所以就不在此误导大家，但是自己会努力学习理解这个问题。不过大家可以参考下面文章去发现更深层次的原理：</p>
 <blockquote>
-<p><a href="https://juejin.im/post/5b45c57c51882519790c7441" target="_blank" rel="noopener">你真的理解setState吗？</a></p>
+<p>自由变量是指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量。</p>
 </blockquote>
+<h2 id="闭包是怎么形成的"><a href="#闭包是怎么形成的" class="headerlink" title="闭包是怎么形成的"></a>闭包是怎么形成的</h2><p>我们来看一段MDN上的示例代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function makeFunc() &#123;</span><br><span class="line">    var name = &quot;Mozilla&quot;;</span><br><span class="line">    function displayName() &#123;</span><br><span class="line">        console.log(name);</span><br><span class="line">    &#125;</span><br><span class="line">    return displayName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var myFunc = makeFunc();</span><br><span class="line">myFunc();</span><br></pre></td></tr></table></figure></p>
+<p>我们来分析一下这段代码的执行上下文栈和执行上下文的变化情况，不了解代码是怎么执行代码并创建对应执行上下文的，可以去看一下冴羽大神的<a href="https://github.com/mqyqingfeng/Blog/issues/8" target="_blank" rel="noopener">JavaScript深入之执行上下文</a>。执行过程如下：</p>
+<ol>
+<li><p>执行全局代码，创建全局上下文，全局上下文被压入执行上下文栈：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">    globalContext</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>全局上下文初始化：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">globalContext = &#123;</span><br><span class="line">    VO: [global],</span><br><span class="line">    Scope: [globalContext.VO],</span><br><span class="line">    this: globalContext.VO</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化的同时，创建makeFunc函数，保存作用域链到函数的内部属性[[scope]]:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">makeFunc.[[scope]] = [</span><br><span class="line">    globalContext.VO</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行makeFunc函数，创建makeFunc函数上下文，makeFunc函数上下文被压入执行上下文栈：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">    globalContext,</span><br><span class="line">    makeFuncContext</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>makeFunc函数上下文初始化，合并作用域链，同时displayName函数也被创建：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">makeFuncContext = &#123;</span><br><span class="line">    AO: &#123;</span><br><span class="line">        arguments: &#123;</span><br><span class="line">            length: 0</span><br><span class="line">        &#125;,</span><br><span class="line">        name: undefined,</span><br><span class="line">        displayName: reference to function displayName()&#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    Scope: [AO, globalContext],</span><br><span class="line">    this: undefined</span><br><span class="line">&#125;</span><br><span class="line">displayName.[[scope]] = [</span><br><span class="line">    makeFuncContext.AO,</span><br><span class="line">    globalContext.VO</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>makeFunc函数执行过程中更新AO：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">makeFuncContext = &#123;</span><br><span class="line">    AO: &#123;</span><br><span class="line">        arguments: &#123;</span><br><span class="line">            length: 0</span><br><span class="line">        &#125;,</span><br><span class="line">        name: &quot;Mozilla&quot;,</span><br><span class="line">        displayName: reference to function displayName()&#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    Scope: [AO, globalContext.VO],</span><br><span class="line">    this: undefined</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>makeFunc函数执行完毕，makeFunc函数上下文从执行上下文栈中弹出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">    globalContext</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行displayName函数，创建displayName函数上下文，displayName函数上下文压入执行上文栈中：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">    globalContext,</span><br><span class="line">    displayNameContext</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化displayName函数上下文，合并作用域链：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">displayNameContext = &#123;</span><br><span class="line">    AO: &#123;</span><br><span class="line">        arguments: &#123;</span><br><span class="line">            length: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    Scope: [AO, makeFuncContext.AO, globalContext.VO],</span><br><span class="line">    this: undefined</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行displayName函数，发现函数内部用到变量name，而displayNameContext.AO中并没有name值，沿着作用域链往上找，在makeFuncContext.AO中找到name值，为Mozilla，则打印Mozilla。displayName函数执行完毕，displayName函数上下文从执行上下文中弹出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">    globalContext</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过上面的解析，我们可以发现，在makeFunc函数上下文从执行上下文栈中弹出后，displayName函数依然存在，并且拥有一个作用域链。所以当makeFuncContext被销毁时，makeFuncContext.AO依然存在于内存中。这就是为什么displayName函数可以读取到makeFuncContext中的值。再结合我们对闭包的实践角度上的定义对比一下，我们发现，displayName函数就是一个典型的闭包。</p>
 ]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
       <tags>
-        <tag>React</tag>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>React手动重新渲染子组件</title>
-    <url>/2019/08/15/React%E6%89%8B%E5%8A%A8%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E5%AD%90%E7%BB%84%E4%BB%B6/</url>
-    <content><![CDATA[<p>昨天在开发APP项目时，需要实现一个上传图片和视频，然后上传后的图片和视频进行轮播的功能，轮播图使用的是第三方插件<code>react-native-snap-carousel</code>，在ios中使用时没有出现过兼容性问题，只是需要在轮播的数据更新时，需要手动调用一下<code>snapToItem</code>方法，展示其对应的下标。然而在android中发现该方法并不生效，并且组件的<code>firstItem</code>属性也不会生效，就导致了上传后数据更新的时候下标依然保留在上一次，但是需求方想要每次展示最新上传的图片或视频。后来发现该组件的<code>firstItem</code>属性会在组件第一次渲染的时候生效，所以想到了一个方法就是将该组件进行手动卸载和挂载使其重新渲染。自己捣鼓了半天没有好的方法，后来在老大的指点下搞定了，然后在这记录一下，如何手动重新渲染子组件。直接上代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            isShow: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate(prevProps)&#123;</span><br><span class="line">        // 判断是否需要更新</span><br><span class="line">        if(this.props.data != prevProps.data)&#123;</span><br><span class="line">            // 先将组件卸载</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                isShow: false</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        // 利用setTimeout异步操作，再将组件重新渲染， 不过会有一下抖动</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                isShow: true</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;, 100)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        const &#123;isShow&#125; = this.state;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    isShow? &lt;Children/&gt;:null</span><br><span class="line">                &#125;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
         <tag>JavaScript</tag>
       </tags>
   </entry>
@@ -213,25 +271,33 @@
       </tags>
   </entry>
   <entry>
-    <title>浅析深拷贝</title>
-    <url>/2020/04/24/%E6%B5%85%E6%9E%90%E6%B7%B1%E6%8B%B7%E8%B4%9D/</url>
-    <content><![CDATA[<p>JavaScript中深拷贝是一个老生常谈的话题，本文记录下本人所了解的几种实现深拷贝的方式。</p>
-<h2 id="为什么要使用深拷贝"><a href="#为什么要使用深拷贝" class="headerlink" title="为什么要使用深拷贝"></a>为什么要使用深拷贝</h2><p>在JavaScript中，基础类型的值是存在栈空间中，当复制基础类型时，相当于在栈空间中新增一个值相同的变量，但是两个变量互不影响；而复杂类型的值是存在堆空间中，其指针地址则是存在栈空间的，所以当直接复制复杂类型的时候，复制只是栈空间中的指针地址，所以新的变量指向的依然是同一个地址所对应的同一份值。所以当我们复制复杂类型并操作新的变量时，会影响原始变量而出现一系列问题。</p>
-<h2 id="实现深拷贝"><a href="#实现深拷贝" class="headerlink" title="实现深拷贝"></a>实现深拷贝</h2><h3 id="JSON序列化"><a href="#JSON序列化" class="headerlink" title="JSON序列化"></a>JSON序列化</h3><p>根据上面的分析，我们知道基础类型的值是可以直接复制的，那么利用JSON.stringify可以将复杂类型转换成JSON字符串，这个时候再去复制就是一份新的值了，再利用JSON.parse将其转换为JSON对象，就可以达到我们的要求了。代码如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    arr: [1, 2, 3],</span><br><span class="line">    obj: &#123;key: &apos;对象&apos;&#125;,</span><br><span class="line">    str: &apos;123&apos;,</span><br><span class="line">    number: 123,</span><br><span class="line">    func: () =&gt; &#123;console.log(&apos;123&apos;)&#125;,</span><br><span class="line">    date: new Date(),</span><br><span class="line">    demo: undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var newObj = JSON.parse(JSON.stringify(obj))</span><br><span class="line"></span><br><span class="line">console.log( newObj === obj ) // false</span><br></pre></td></tr></table></figure></p>
-<p>这样可以满足我们的需求，但是我们打印<code>newObj</code>可以发现，demo和func属性消失了，并且date属性也被转成了字符串。所以这种方法只能深拷贝对象和数组，其他的类型就会出现失真，不过深拷贝数组和对象已经能够满足我们大部分业务需求了，所以开发中如果没有特殊需求的话可以直接使用这种方法。</p>
-<h3 id="利用for…in和递归"><a href="#利用for…in和递归" class="headerlink" title="利用for…in和递归"></a>利用for…in和递归</h3><p>直接上代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function deepClone(obj) &#123;</span><br><span class="line">    if(typeof obj === &apos;object&apos; &amp;&amp; obj !== null)&#123;</span><br><span class="line">        const TypeConstructor = obj.constructor;</span><br><span class="line">        const tmpObj = new TypeConstructor();</span><br><span class="line">        for(let key in obj) &#123;</span><br><span class="line">            tmpObj[key] = deepClone(obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">        return tmpObj;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var obj = &#123;</span><br><span class="line">    arr: [1, 2, 3],</span><br><span class="line">    obj: &#123;key: &apos;对象&apos;&#125;,</span><br><span class="line">    str: &apos;123&apos;,</span><br><span class="line">    number: 123,</span><br><span class="line">    func: () =&gt; &#123;console.log(&apos;123&apos;)&#125;,</span><br><span class="line">    date: new Date(),</span><br><span class="line">    demo: undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var newObj = deepClone(obj)</span><br><span class="line"></span><br><span class="line">console.log(newObj === obj) // false</span><br></pre></td></tr></table></figure></p>
-<p>我们通过<code>for...in</code>来遍历复杂类型，并且配合递归将原始对象中的基本类型一一复制到新的对象中，这样我们就生成了一个新的对象和地址，也是可以满足我们的需求的。而且打印<code>newObj</code>会发现<code>undefined</code>、<code>function</code>、<code>date</code>属性值也都是存在的。但是这个函数依然不是完美的，<code>function</code>类型依然没有拷贝成功，我使用<code>lodash</code>的深拷贝方法试验过，也是无法拷贝<code>function</code>，这和HTML5规范定义的<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/The_structured_clone_algorithm" target="_blank" rel="noopener">结构化克隆算法</a>有关，大家可以深入了解下。</p>
-<h2 id="高性能版的深拷贝"><a href="#高性能版的深拷贝" class="headerlink" title="高性能版的深拷贝"></a>高性能版的深拷贝</h2><p>上面的递归浅拷贝方法已经可以解决JSON序列化的问题了，但是由于使用递归，对于庞大的数据来说性能上还是有问题的。如何实现高性能版本的深拷贝呢，曾经在掘金上看到yck大佬的文章，<a href="https://juejin.im/post/5df7175fe51d45582512962c" target="_blank" rel="noopener">头条面试官：你知道如何实现高性能版本的深拷贝嘛？</a>，这篇文章里介绍了如何使用<code>Proxy</code>对数据进行代理，通过拦截<code>set</code>和<code>get</code>来生成不可变对象，只对有改变的数据进行拷贝操作从而优化性能。具体的核心思路就是：</p>
+    <title>实现防抖和节流</title>
+    <url>/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
+    <content><![CDATA[<p>在业务开发场景中，我们经常会使用到防抖和节流，我一般都是使用<code>Lodash</code>工具库直接调用这两个方法，今天自己来实现一下这两个方法。</p>
+<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖的含义：触发高频事件在n秒以后执行，如果在n秒之内再次触发事件，则重新计算时间<br>防抖的应用场景：</p>
 <ul>
-<li>拦截<code>set</code>，所有赋值都在copy（原数据浅拷贝的对象）中进行，这样就不会影响到原对象</li>
+<li>autoComplete组件</li>
 </ul>
 <ul>
-<li>拦截<code>get</code>，通过属性是否修改的逻辑分别从copy或者原数据中取值</li>
+<li>实时搜索框</li>
+</ul>
+<p>实现思路：<br>利用闭包缓存一个时间为n秒计时器，每次触发事件时，清除上一个计时器。<br>代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function debounce(fn, time) &#123;</span><br><span class="line">    // 利用闭包缓存一个定时器</span><br><span class="line">    let timeout = null;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行 则先清除上一个定时器</span><br><span class="line">        clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout((a) =&gt; &#123;</span><br><span class="line">            // 执行事件</span><br><span class="line">            fn.apply(this, arguments)</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流(throttle)"></a>节流(throttle)</h2><p>节流的含义：触发高频事件后，在n秒内只执行一次<br>节流的应用场景：</p>
+<ul>
+<li>监听滚动事件，实现懒加载等</li>
 </ul>
 <ul>
-<li>最后生成不可变对象的时候遍历原对象，判断属性是否被修改过，也就是判断是否存在copy。如果没有修改过的话，就返回原属性，并且也不再需要对子属性对象遍历，提高了性能。如果修改过的话，就需要把copy赋值到新对象上，并且递归遍历</li>
+<li>防止用户连续频繁的点击事件，如提交按钮等</li>
 </ul>
-<p>具体的逻辑和代码大家可以参考yck大佬的文章，在这我就不做多介绍了。</p>
+<p>实现节流有两种方案：</p>
+<ul>
+<li>利用闭包缓存一个是否可以执行函数的变量，配合定时器去修改变量来执行函数。</li>
+</ul>
+<ul>
+<li>利用闭包缓存上一次的时间戳，判断当前执行的时间和上一次时间的间隔是否大于规定时间。</li>
+</ul>
+<p>定时器代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 设置一个标识 来判断延时函数是否可以执行，默认可以执行</span><br><span class="line">    let isCanRun = true;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行先判断是否可以执行延迟函数</span><br><span class="line">        if(!isCanRun) return;</span><br><span class="line">        // 将标识设置为false，表示有延时函数需要执行</span><br><span class="line">        isCanRun = false;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 在函数执行完后 延时将标识设置为true，</span><br><span class="line">            isCanRun = true;</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>时间戳代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 缓存上次执行时间的变量</span><br><span class="line">    let activeTime = 0;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 获取每次执行的时间戳</span><br><span class="line">        const curTime = +new Date();</span><br><span class="line">        // 判断当前执行的时间和缓存的时间戳的时间差是否大于要延时的时间 </span><br><span class="line">        if( curTime - activeTime &gt; time )&#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 缓存当前时间</span><br><span class="line">            activeTime = curTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <tags>
         <tag>JavaScript</tag>
@@ -270,6 +336,31 @@
         <tag>React</tag>
         <tag>JavaScript</tag>
         <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅析深拷贝</title>
+    <url>/2020/04/24/%E6%B5%85%E6%9E%90%E6%B7%B1%E6%8B%B7%E8%B4%9D/</url>
+    <content><![CDATA[<p>JavaScript中深拷贝是一个老生常谈的话题，本文记录下本人所了解的几种实现深拷贝的方式。</p>
+<h2 id="为什么要使用深拷贝"><a href="#为什么要使用深拷贝" class="headerlink" title="为什么要使用深拷贝"></a>为什么要使用深拷贝</h2><p>在JavaScript中，基础类型的值是存在栈空间中，当复制基础类型时，相当于在栈空间中新增一个值相同的变量，但是两个变量互不影响；而复杂类型的值是存在堆空间中，其指针地址则是存在栈空间的，所以当直接复制复杂类型的时候，复制只是栈空间中的指针地址，所以新的变量指向的依然是同一个地址所对应的同一份值。所以当我们复制复杂类型并操作新的变量时，会影响原始变量而出现一系列问题。</p>
+<h2 id="实现深拷贝"><a href="#实现深拷贝" class="headerlink" title="实现深拷贝"></a>实现深拷贝</h2><h3 id="JSON序列化"><a href="#JSON序列化" class="headerlink" title="JSON序列化"></a>JSON序列化</h3><p>根据上面的分析，我们知道基础类型的值是可以直接复制的，那么利用JSON.stringify可以将复杂类型转换成JSON字符串，这个时候再去复制就是一份新的值了，再利用JSON.parse将其转换为JSON对象，就可以达到我们的要求了。代码如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    arr: [1, 2, 3],</span><br><span class="line">    obj: &#123;key: &apos;对象&apos;&#125;,</span><br><span class="line">    str: &apos;123&apos;,</span><br><span class="line">    number: 123,</span><br><span class="line">    func: () =&gt; &#123;console.log(&apos;123&apos;)&#125;,</span><br><span class="line">    date: new Date(),</span><br><span class="line">    demo: undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var newObj = JSON.parse(JSON.stringify(obj))</span><br><span class="line"></span><br><span class="line">console.log( newObj === obj ) // false</span><br></pre></td></tr></table></figure></p>
+<p>这样可以满足我们的需求，但是我们打印<code>newObj</code>可以发现，demo和func属性消失了，并且date属性也被转成了字符串。所以这种方法只能深拷贝对象和数组，其他的类型就会出现失真，不过深拷贝数组和对象已经能够满足我们大部分业务需求了，所以开发中如果没有特殊需求的话可以直接使用这种方法。</p>
+<h3 id="利用for…in和递归"><a href="#利用for…in和递归" class="headerlink" title="利用for…in和递归"></a>利用for…in和递归</h3><p>直接上代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function deepClone(obj) &#123;</span><br><span class="line">    if(typeof obj === &apos;object&apos; &amp;&amp; obj !== null)&#123;</span><br><span class="line">        const TypeConstructor = obj.constructor;</span><br><span class="line">        const tmpObj = new TypeConstructor();</span><br><span class="line">        for(let key in obj) &#123;</span><br><span class="line">            tmpObj[key] = deepClone(obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">        return tmpObj;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var obj = &#123;</span><br><span class="line">    arr: [1, 2, 3],</span><br><span class="line">    obj: &#123;key: &apos;对象&apos;&#125;,</span><br><span class="line">    str: &apos;123&apos;,</span><br><span class="line">    number: 123,</span><br><span class="line">    func: () =&gt; &#123;console.log(&apos;123&apos;)&#125;,</span><br><span class="line">    date: new Date(),</span><br><span class="line">    demo: undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var newObj = deepClone(obj)</span><br><span class="line"></span><br><span class="line">console.log(newObj === obj) // false</span><br></pre></td></tr></table></figure></p>
+<p>我们通过<code>for...in</code>来遍历复杂类型，并且配合递归将原始对象中的基本类型一一复制到新的对象中，这样我们就生成了一个新的对象和地址，也是可以满足我们的需求的。而且打印<code>newObj</code>会发现<code>undefined</code>、<code>function</code>、<code>date</code>属性值也都是存在的。但是这个函数依然不是完美的，<code>function</code>类型依然没有拷贝成功，我使用<code>lodash</code>的深拷贝方法试验过，也是无法拷贝<code>function</code>，这和HTML5规范定义的<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/The_structured_clone_algorithm" target="_blank" rel="noopener">结构化克隆算法</a>有关，大家可以深入了解下。</p>
+<h2 id="高性能版的深拷贝"><a href="#高性能版的深拷贝" class="headerlink" title="高性能版的深拷贝"></a>高性能版的深拷贝</h2><p>上面的递归浅拷贝方法已经可以解决JSON序列化的问题了，但是由于使用递归，对于庞大的数据来说性能上还是有问题的。如何实现高性能版本的深拷贝呢，曾经在掘金上看到yck大佬的文章，<a href="https://juejin.im/post/5df7175fe51d45582512962c" target="_blank" rel="noopener">头条面试官：你知道如何实现高性能版本的深拷贝嘛？</a>，这篇文章里介绍了如何使用<code>Proxy</code>对数据进行代理，通过拦截<code>set</code>和<code>get</code>来生成不可变对象，只对有改变的数据进行拷贝操作从而优化性能。具体的核心思路就是：</p>
+<ul>
+<li>拦截<code>set</code>，所有赋值都在copy（原数据浅拷贝的对象）中进行，这样就不会影响到原对象</li>
+</ul>
+<ul>
+<li>拦截<code>get</code>，通过属性是否修改的逻辑分别从copy或者原数据中取值</li>
+</ul>
+<ul>
+<li>最后生成不可变对象的时候遍历原对象，判断属性是否被修改过，也就是判断是否存在copy。如果没有修改过的话，就返回原属性，并且也不再需要对子属性对象遍历，提高了性能。如果修改过的话，就需要把copy赋值到新对象上，并且递归遍历</li>
+</ul>
+<p>具体的逻辑和代码大家可以参考yck大佬的文章，在这我就不做多介绍了。</p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -504,39 +595,6 @@
       <categories>
         <category>前端</category>
       </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>实现防抖和节流</title>
-    <url>/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
-    <content><![CDATA[<p>在业务开发场景中，我们经常会使用到防抖和节流，我一般都是使用<code>Lodash</code>工具库直接调用这两个方法，今天自己来实现一下这两个方法。</p>
-<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖的含义：触发高频事件在n秒以后执行，如果在n秒之内再次触发事件，则重新计算时间<br>防抖的应用场景：</p>
-<ul>
-<li>autoComplete组件</li>
-</ul>
-<ul>
-<li>实时搜索框</li>
-</ul>
-<p>实现思路：<br>利用闭包缓存一个时间为n秒计时器，每次触发事件时，清除上一个计时器。<br>代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function debounce(fn, time) &#123;</span><br><span class="line">    // 利用闭包缓存一个定时器</span><br><span class="line">    let timeout = null;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行 则先清除上一个定时器</span><br><span class="line">        clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout((a) =&gt; &#123;</span><br><span class="line">            // 执行事件</span><br><span class="line">            fn.apply(this, arguments)</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流(throttle)"></a>节流(throttle)</h2><p>节流的含义：触发高频事件后，在n秒内只执行一次<br>节流的应用场景：</p>
-<ul>
-<li>监听滚动事件，实现懒加载等</li>
-</ul>
-<ul>
-<li>防止用户连续频繁的点击事件，如提交按钮等</li>
-</ul>
-<p>实现节流有两种方案：</p>
-<ul>
-<li>利用闭包缓存一个是否可以执行函数的变量，配合定时器去修改变量来执行函数。</li>
-</ul>
-<ul>
-<li>利用闭包缓存上一次的时间戳，判断当前执行的时间和上一次时间的间隔是否大于规定时间。</li>
-</ul>
-<p>定时器代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 设置一个标识 来判断延时函数是否可以执行，默认可以执行</span><br><span class="line">    let isCanRun = true;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 每次执行先判断是否可以执行延迟函数</span><br><span class="line">        if(!isCanRun) return;</span><br><span class="line">        // 将标识设置为false，表示有延时函数需要执行</span><br><span class="line">        isCanRun = false;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 在函数执行完后 延时将标识设置为true，</span><br><span class="line">            isCanRun = true;</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>时间戳代码实现：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn, time) &#123;</span><br><span class="line">    // 缓存上次执行时间的变量</span><br><span class="line">    let activeTime = 0;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        // 获取每次执行的时间戳</span><br><span class="line">        const curTime = +new Date();</span><br><span class="line">        // 判断当前执行的时间和缓存的时间戳的时间差是否大于要延时的时间 </span><br><span class="line">        if( curTime - activeTime &gt; time )&#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">            // 缓存当前时间</span><br><span class="line">            activeTime = curTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-]]></content>
       <tags>
         <tag>JavaScript</tag>
       </tags>
