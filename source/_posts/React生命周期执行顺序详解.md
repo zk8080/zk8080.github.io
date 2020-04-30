@@ -14,7 +14,7 @@ tags:
 此阶段的顺序为：constructor -> componentWillMount -> render -> ComponentDidMount。
 由于React新的版本中将一些生命周期函数标记为‘过时’，所以在图谱中我们没有看到componentWillMount，但是现在依然可以使用这个生命周期函数。
 我们可以看下面这行代码来检验这个阶段的执行顺序：
-```
+```jsx
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -41,7 +41,7 @@ class Index extends Component {
 这个顺序没有什么疑问，但是如果是嵌套组件呢？父子组件之前的顺序是什么样的呢？
 ### 嵌套组件初始化创建阶段
 我们再看一段代码：
-```
+```jsx
 class Parent extends Component {
     constructor(props) {
         super(props);
@@ -100,7 +100,7 @@ class Child extends Component {
 第一种情况是当前组件内部的更新，第二种情况是由于父组件更新导致子组件的更新。这两种情况都会触发更新，但是有部分生命周期函数的执行不一样，我们先看第一种情况：
 ### setState触发的组件自身更新
 先看下面一段代码：
-```
+```jsx
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -141,7 +141,7 @@ class Index extends Component {
 
 ### 父组件更新触发的子组件更新
 这种情况是在嵌套组件中，直接上代码：
-```
+```jsx
 class Parent extends Component {
     constructor(props) {
         super(props);

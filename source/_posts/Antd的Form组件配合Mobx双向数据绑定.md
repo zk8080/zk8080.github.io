@@ -14,7 +14,7 @@ tags:
 在后台管理系统中，表单是及其重要的，因为我们的增、改、查三个操作都需要用到表单。增加和查询一般是手动填入的，而修改则是需要将已有的数据先反显到表单中，再进行修改。这个反显的过程就需要对表单进行双向数据绑定了。
 # 怎么进行双向数据绑定？
 在Antd的Form组件中，使用Form.create()包装组件后，该组件的props属性就会多一个form对象，该对象提供了一些api，具体的可以查看Antd的官方文档进行查看，其中`getFieldDecorator`是该组件提供的双向数据绑定的api。直接上代码来看用法：
-```
+```jsx
     <Form>
         <Form.Item>
             {getFieldDecorator('username', {
@@ -37,7 +37,7 @@ tags:
 
 # 使用Mobx数据双向数据绑定
 在我的项目中，用的状态管理库为Mobx，如何将Mobx中观察的数据传入到Form组件中，我们走了很多弯路，开始我们发现`getFieldDecorator`函数的配置项中提供了一个`initialValue`的属性，使用该属性可以将Mobx的数据反显到表单控件中，但是该属性仅是表单控件的初始值，类似于`defaultValue`的功能，所以只要我们在页面中手动触发了控件的`value`改变，`initialValue`就不会再生效了，也就是说反显是ok的，但是如果要操作就会出问题。后面仔细阅读文档后，发现Form.create()函数中提供了`mapPropsToFields`和`onFieldsChange`两个api，这两个api配合使用可以将Mobx观察的数据传入到Form组件中，而且组件修改时也能实时传入到Mobx中。具体用法如下：
-```
+```jsx
 //  将mobx中观察的数据 转换为mapPropsToFields所需要的结构
 const objToForm = (obj = {}) => {
     const target = {};

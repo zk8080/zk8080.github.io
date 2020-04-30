@@ -7,7 +7,7 @@ tags:
 ---
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。
 先看一段代码:
-```
+```js
     setTimeout(function(){
         console.log('a')
     },0)
@@ -33,7 +33,7 @@ tags:
 知道了这些后，再看上面的代码，我们知道了`setTimeout`属于异步操作，会进入Event Table,等待主线程任务执行完毕才会去执行。但是`setTimeout(function(){},0)`是不是会立即呢？答案是不会。因为`setTimeout(fn, 0)`是指当主线程任务执行完毕后会立即执行，不需要再等待多少秒后再执行，所以我们会看到这段代码的结果是`bdaec`。
 
 接着我们再看一段代码:
-```
+```js
     setTimeout(function(){
         console.log('a')
     },0)

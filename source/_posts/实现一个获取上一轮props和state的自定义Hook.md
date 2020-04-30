@@ -6,7 +6,7 @@ tags:
     - React Hook
 ---
 最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class组件转换成Hook的过程中，发现需要在组件中获取上一轮的props和state，但是内置的Hook Api中并没有提供这个方法，在文档中找到一个可以自定义的Hook，在此记录下。直接上代码：
-```
+```js
 const usePrevious = (preValue) => {
     const ref = useRef();
     useEffect(() => {
@@ -17,7 +17,7 @@ const usePrevious = (preValue) => {
 }
 ```
 如果不太能理解这段代码为什么可以取到上一次的值，那么可以把这段代码放在我们的业务代码中去看一下：
-```
+```js
 function Counter() {
     const [count, setCount] = useState(0);
 

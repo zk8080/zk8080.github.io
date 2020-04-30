@@ -27,7 +27,7 @@ tags:
 + then方法返回一个新的Promise
 
 根据这些要求我们可以先实现一个简易版的Promise：
-```
+```js
     const PENDING = "pengding";
     const FULFILLED = "fulfilled";
     const REJECTED = "rejected";
@@ -87,7 +87,7 @@ tags:
 根据规范，我们上面实现的简易版，除了不能进行异步操作外，还缺少了一个resolvePromise函数去处理then函数中的回调函数的返回值。所以接下来我们一步步来实现。
 ## 增加异步操作
 首先我们需要定义两个保存回调函数的数组，分别保存onFulfilled回调函数和onRejected回调函数，并且在执行resolve或reject后，进行调用回调函数。
-```
+```js
     function MyPromise(fn) {
         const self = this;
         self.status = PENDING;
@@ -120,7 +120,7 @@ tags:
     }
 ```
 然后修改一下then方法，需要加一个pengding状态的判断，将对应的回调函数，加入到回调函数集合中：
-```
+```js
     if(self.status === PENDING){
         return bridgePromise = new MyPromise(function(resolve, reject){
             self.onFulfilledCallbacks.push(value => {
@@ -147,7 +147,7 @@ tags:
 
 ## 实现resolvePromise函数，处理回调函数结果
 resolvePromise函数是Promise/A+规范中，规定对Promise结果进行解析的处理程序，其中判断了多种Promise返回结果的情况，具体判断规则可以参考文档，这里我们来根据文档实现这个函数：
-```
+```js
     function resolvePromise(bridgePromise, x, resolve, reject) {
         /**
         * 2.3.1 如果返回的 bridgePromise 和 x 是指向同一个引用（循环引用），则抛出错误
@@ -217,7 +217,7 @@ resolvePromise函数是Promise/A+规范中，规定对Promise结果进行解析�
 
 ```
 resolvePromise函数已经实现，接下来我们完善一下then方法：
-```
+```js
     MyPromise.prototype.then = function (onFulfilled, onRejected) {
         const self = this;
 
@@ -282,7 +282,7 @@ resolvePromise函数已经实现，接下来我们完善一下then方法：
 到此，我们已经把then方法完整的实现了，接下来我们将整个代码进行整合，然后进行测试。
 
 # 符合Promise/A+规范的完整代码
-```
+```js
 const PENDING = 'pengding';
 const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
