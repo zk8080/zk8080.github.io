@@ -136,6 +136,7 @@ function Parent() {
 ### 4.使用不可变数据
 使用第三方工具库[immutable.js](https://github.com/immutable-js/immutable-js)、[immer.js](https://github.com/immerjs/immer)，使状态变得可预测，而且配合`shouldComponentUpdate`、`PurComponent`、`React.memo`使用，会让浅比对变得更精确和高效。具体使用方法，大家感兴趣的话可以参考这两个库的文档。
 
+
 ## 减少渲染的计算量
 上面减少render的次数，是为了diff的过程，但是如果组件达到的渲染的条件，那么优化的点就是减少diff的性能消耗了。
 
@@ -207,3 +208,18 @@ function MyComponent() {
 }
 ```
 当然`React.lazy`配合`import()`使用，然后利用`webpack`打包的时候，也可以达到代码分割的效果。
+
+### 5.减少计算量
+在hooks中，React提供了`useMemo`API，可以对我们的计算量较大函数的结果进行缓存，只要依赖项没有改变，那么该计算函数就不会再次执行，这样就大大的提升了我们渲染的效率，减少了计算量。当然如果计算量很小，可以不使用这个API，因为任何优化都是有成本的，如果使用错误，可能会导致更多的问题。使用如下：
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+需要注意的是，如果没有给`useMemo`提供依赖项，那么每次渲染都会导致计算函数重新执行。另外`useCallback(fn, [deps])`相当于`useMemo(() => fn, [deps])`。
+
+以上是我所总结的React性能优化的方式，当然还有更多的优化方案，待下次整理后再补充上。
+
+## 参考文章
+> [浅谈React性能优化的方向](https://juejin.im/post/5d045350f265da1b695d5bf2#heading-12)
+> [React函数式组件性能优化指南](https://mp.weixin.qq.com/s/mpL1MxLjBqSO49TRijeyeg)
+> [【译】什么时候使用 useMemo 和 useCallback](https://jancat.github.io/post/2019/translation-usememo-and-usecallback/)
+> [21个React性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
