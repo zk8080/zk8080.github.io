@@ -390,7 +390,13 @@
 </ul>
 <ul>
 <li>使用es5实现继承的方式<blockquote>
-<p>这个说了下原型继承，和组合继承，还有寄生式继承。不过讲的不是特别好，还需要再巩固下。<br>— http缓存-强缓存和协商缓存<br>这个因为记得不是太清楚，说的时候没能说出具体使用的请求头和响应头的属性。大家可以参考下这篇文章<a href="https://juejin.im/post/5b3c87386fb9a04f9a5cb037" target="_blank" rel="noopener">面试精选之http缓存</a>，讲的很棒。</p>
+<p>这个说了下原型继承，和组合继承，还有寄生式继承。不过讲的不是特别好，还需要再巩固下。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>http缓存-强缓存和协商缓存<blockquote>
+<p>这个因为记得不是太清楚，说的时候没能说出具体使用的请求头和响应头的属性。大家可以参考下这篇文章<a href="https://juejin.im/post/5b3c87386fb9a04f9a5cb037" target="_blank" rel="noopener">面试精选之http缓存</a>，讲的很棒。</p>
 </blockquote>
 </li>
 </ul>
