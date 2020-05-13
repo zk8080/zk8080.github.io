@@ -408,7 +408,13 @@
 </ul>
 <ul>
 <li>webpack有哪几种hash值，具体怎么使用<blockquote>
-<p>这里我只说出了hash、chunkhash、contenthash，和怎么使用的。但是三者的区别，我不太清楚。大家可以看下这篇文章<a href="https://juejin.im/post/5d70aee4f265da03f12e7ab2" target="_blank" rel="noopener">webpack中的hash、chunkhash、contenthash分别是什么</a><br>— webpack懒加载<br>这个我说了下React.lazy和import()动态加载模块实现懒加载。具体的大家可以查阅下官网和资料。</p>
+<p>这里我只说出了hash、chunkhash、contenthash，和怎么使用的。但是三者的区别，我不太清楚。大家可以看下这篇文章<a href="https://juejin.im/post/5d70aee4f265da03f12e7ab2" target="_blank" rel="noopener">webpack中的hash、chunkhash、contenthash分别是什么</a></p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>webpack懒加载<blockquote>
+<p>这个我说了下React.lazy和import()动态加载模块实现懒加载。具体的大家可以查阅下官网和资料。</p>
 </blockquote>
 </li>
 </ul>
