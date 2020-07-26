@@ -366,65 +366,6 @@
       </tags>
   </entry>
   <entry>
-    <title>面试题记录</title>
-    <url>/2020/05/11/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<p>最近在找工作，所以来记录下自己面试过程中的问题。</p>
-<h2 id="天使轮人工智能公司"><a href="#天使轮人工智能公司" class="headerlink" title="天使轮人工智能公司"></a>天使轮人工智能公司</h2><p>这个是昨天面试的一家公司，电话面试初试通过，在等待二面中。</p>
-<h3 id="一面-电话面"><a href="#一面-电话面" class="headerlink" title="一面(电话面)"></a>一面(电话面)</h3><ul>
-<li>说一下React Hooks中的<code>useCallback</code>和<code>useMemo</code>两个API<blockquote>
-<p>这个我说了下是用来缓存和为什么要用这两个API去缓存的原因，可以参考官方文档<a href="https://react.docschina.org/docs/hooks-reference.html#usecallback" target="_blank" rel="noopener">Hooks API</a></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>React setState之后发生了什么<blockquote>
-<p>这个考察的范围很大，但是因为我对源码了解不多，所以只说了下setState之后生命周期更新的流程，和React协调的过程，也就是在render里面根据新的数据状态生成新的虚拟dom，然后利用diff算法对比上一次的虚拟dom，查找出需要更新的节点，来更新新的UI。这个大家可以去网上查阅一些资料。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>谈一下React合成事件<blockquote>
-<p>这个了解的不多，只是知道React的事件都是注册在顶层的<code>document</code>节点上，利用事件冒泡的机制去触发绑定的事件。具体的大家可以参考这篇文章<a href="https://mp.weixin.qq.com/s/8KrgoeLSuZ5-p-0cDZeb8A" target="_blank" rel="noopener">一文吃透 React 事件机制原理</a></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>使用es5实现继承的方式<blockquote>
-<p>这个说了下原型继承，和组合继承，还有寄生式继承。不过讲的不是特别好，还需要再巩固下。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>http缓存-强缓存和协商缓存<blockquote>
-<p>这个因为记得不是太清楚，说的时候没能说出具体使用的请求头和响应头的属性。大家可以参考下这篇文章<a href="https://juejin.im/post/5b3c87386fb9a04f9a5cb037" target="_blank" rel="noopener">面试精选之http缓存</a>，讲的很棒。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>webpack怎么抽取公共包<blockquote>
-<p>这个使用DllPlugin抽取第三方库，可以在二次打包的时候极大的提升编译速度。具体的大家可以参考官方文档。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>webpack有哪几种hash值，具体怎么使用<blockquote>
-<p>这里我只说出了hash、chunkhash、contenthash，和怎么使用的。但是三者的区别，我不太清楚。大家可以看下这篇文章<a href="https://juejin.im/post/5d70aee4f265da03f12e7ab2" target="_blank" rel="noopener">webpack中的hash、chunkhash、contenthash分别是什么</a></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>webpack懒加载<blockquote>
-<p>这个我说了下React.lazy和import()动态加载模块实现懒加载。具体的大家可以查阅下官网和资料。</p>
-</blockquote>
-</li>
-</ul>
-<p>一面就是这些内容，自己回答的一般吧。要补充的知识还有很多，需要继续努力，再巩固下基础和深入一下框架的原理。后序面试会再补充到这里，加油！</p>
-]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>浅析深拷贝</title>
     <url>/2020/04/24/%E6%B5%85%E6%9E%90%E6%B7%B1%E6%8B%B7%E8%B4%9D/</url>
     <content><![CDATA[<p>JavaScript中深拷贝是一个老生常谈的话题，本文记录下本人所了解的几种实现深拷贝的方式。</p>
