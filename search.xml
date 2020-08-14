@@ -34,31 +34,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HelloWorld</title>
-    <url>/2019/03/26/HelloWorld/</url>
-    <content><![CDATA[<h2 id="新的开始"><a href="#新的开始" class="headerlink" title="新的开始"></a>新的开始</h2><p>经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；<br>希望从今天开始，自己能够坚持记录生活和工作上的一些事！<br>加油！！！</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>React手动重新渲染子组件</title>
-    <url>/2019/08/15/React%E6%89%8B%E5%8A%A8%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E5%AD%90%E7%BB%84%E4%BB%B6/</url>
-    <content><![CDATA[<p>昨天在开发APP项目时，需要实现一个上传图片和视频，然后上传后的图片和视频进行轮播的功能，轮播图使用的是第三方插件<code>react-native-snap-carousel</code>，在ios中使用时没有出现过兼容性问题，只是需要在轮播的数据更新时，需要手动调用一下<code>snapToItem</code>方法，展示其对应的下标。然而在android中发现该方法并不生效，并且组件的<code>firstItem</code>属性也不会生效，就导致了上传后数据更新的时候下标依然保留在上一次，但是需求方想要每次展示最新上传的图片或视频。后来发现该组件的<code>firstItem</code>属性会在组件第一次渲染的时候生效，所以想到了一个方法就是将该组件进行手动卸载和挂载使其重新渲染。自己捣鼓了半天没有好的方法，后来在老大的指点下搞定了，然后在这记录一下，如何手动重新渲染子组件。直接上代码：<br><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            isShow: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate(prevProps)&#123;</span><br><span class="line">        <span class="comment">// 判断是否需要更新</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.props.data != prevProps.data)&#123;</span><br><span class="line">            <span class="comment">// 先将组件卸载</span></span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                isShow: <span class="literal">false</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 利用setTimeout异步操作，再将组件重新渲染， 不过会有一下抖动</span></span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                isShow: <span class="literal">true</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;, <span class="number">100</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;isShow&#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    isShow? &lt;Children/&gt;:<span class="literal">null</span></span><br><span class="line">                &#125;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS事件循环(Event Loop)</title>
     <url>/2019/04/11/JS%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
     <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日常开发中，总会出现各种因为同步异步行为导致的问题。最近和同事们讨论React中setState同步异步的问题，在网上看到一些解析和总结，发现自己其实对js的执行机制并不太理解。因此在网上查阅了一些资料，来完善一下自己的知识，本文是自己记录一下对js执行机制的理解。<br>先看一段代码:<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'a'</span>)</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'b'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'c'</span>)</span><br><span class="line">&#125;,<span class="number">1000</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'d'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'e'</span>)</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
@@ -148,6 +123,18 @@
       </tags>
   </entry>
   <entry>
+    <title>HelloWorld</title>
+    <url>/2019/03/26/HelloWorld/</url>
+    <content><![CDATA[<h2 id="新的开始"><a href="#新的开始" class="headerlink" title="新的开始"></a>新的开始</h2><p>经历了一些事情，终于狠下心来买了人生的第一台MacBook Pro，也折腾了两三天，把自己的博客又重新搭了起来；<br>希望从今天开始，自己能够坚持记录生活和工作上的一些事！<br>加油！！！</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>实现一个获取上一轮props和state的自定义Hook</title>
     <url>/2020/04/17/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%8E%B7%E5%8F%96%E4%B8%8A%E4%B8%80%E8%BD%AEprops%E5%92%8Cstate%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89Hook/</url>
     <content><![CDATA[<p>最近在项目中使用了React Hook，刚上手感觉很好用，不用在写class组件中那么多的生命周期模板语法，尤其是一些需要在componentDidMount和componentDidUpdate中进行的副作用操作，可以直接使用useEffect去替代。写完感觉代码清爽很多，也更乐意去使用React Hook了。当然，在不熟练的和不去深入了解的情况下会出现很多意想不到的问题。本文是我在将Class组件转换成Hook的过程中，发现需要在组件中获取上一轮的props和state，但是内置的Hook Api中并没有提供这个方法，在文档中找到一个可以自定义的Hook，在此记录下。直接上代码：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> usePrevious = <span class="function">(<span class="params">preValue</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ref = useRef();</span><br><span class="line">    useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        ref.current = preValue;</span><br><span class="line">    &#125;, [preValue])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ref.current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -167,6 +154,52 @@
       <tags>
         <tag>React</tag>
         <tag>React Hook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React手动重新渲染子组件</title>
+    <url>/2019/08/15/React%E6%89%8B%E5%8A%A8%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E5%AD%90%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<p>昨天在开发APP项目时，需要实现一个上传图片和视频，然后上传后的图片和视频进行轮播的功能，轮播图使用的是第三方插件<code>react-native-snap-carousel</code>，在ios中使用时没有出现过兼容性问题，只是需要在轮播的数据更新时，需要手动调用一下<code>snapToItem</code>方法，展示其对应的下标。然而在android中发现该方法并不生效，并且组件的<code>firstItem</code>属性也不会生效，就导致了上传后数据更新的时候下标依然保留在上一次，但是需求方想要每次展示最新上传的图片或视频。后来发现该组件的<code>firstItem</code>属性会在组件第一次渲染的时候生效，所以想到了一个方法就是将该组件进行手动卸载和挂载使其重新渲染。自己捣鼓了半天没有好的方法，后来在老大的指点下搞定了，然后在这记录一下，如何手动重新渲染子组件。直接上代码：<br><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            isShow: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidUpdate(prevProps)&#123;</span><br><span class="line">        <span class="comment">// 判断是否需要更新</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.props.data != prevProps.data)&#123;</span><br><span class="line">            <span class="comment">// 先将组件卸载</span></span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                isShow: <span class="literal">false</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 利用setTimeout异步操作，再将组件重新渲染， 不过会有一下抖动</span></span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                isShow: <span class="literal">true</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;, <span class="number">100</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;isShow&#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    isShow? &lt;Children/&gt;:<span class="literal">null</span></span><br><span class="line">                &#125;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>实现防抖和节流</title>
+    <url>/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
+    <content><![CDATA[<p>在业务开发场景中，我们经常会使用到防抖和节流，我一般都是使用<code>Lodash</code>工具库直接调用这两个方法，今天自己来实现一下这两个方法。</p>
+<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖的含义：触发高频事件在n秒以后执行，如果在n秒之内再次触发事件，则重新计算时间<br>防抖的应用场景：</p>
+<ul>
+<li>autoComplete组件</li>
+</ul>
+<ul>
+<li>实时搜索框</li>
+</ul>
+<p>实现思路：<br>利用闭包缓存一个时间为n秒计时器，每次触发事件时，清除上一个计时器。<br>代码：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 利用闭包缓存一个定时器</span></span><br><span class="line">    <span class="keyword">let</span> timeout = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 每次执行 则先清除上一个定时器</span></span><br><span class="line">        clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout(<span class="function">(<span class="params">a</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 执行事件</span></span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流(throttle)"></a>节流(throttle)</h2><p>节流的含义：触发高频事件后，在n秒内只执行一次<br>节流的应用场景：</p>
+<ul>
+<li>监听滚动事件，实现懒加载等</li>
+</ul>
+<ul>
+<li>防止用户连续频繁的点击事件，如提交按钮等</li>
+</ul>
+<p>实现节流有两种方案：</p>
+<ul>
+<li>利用闭包缓存一个是否可以执行函数的变量，配合定时器去修改变量来执行函数。</li>
+</ul>
+<ul>
+<li>利用闭包缓存上一次的时间戳，判断当前执行的时间和上一次时间的间隔是否大于规定时间。</li>
+</ul>
+<p>定时器代码实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置一个标识 来判断延时函数是否可以执行，默认可以执行</span></span><br><span class="line">    <span class="keyword">let</span> isCanRun = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 每次执行先判断是否可以执行延迟函数</span></span><br><span class="line">        <span class="keyword">if</span>(!isCanRun) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// 将标识设置为false，表示有延时函数需要执行</span></span><br><span class="line">        isCanRun = <span class="literal">false</span>;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            <span class="comment">// 在函数执行完后 延时将标识设置为true，</span></span><br><span class="line">            isCanRun = <span class="literal">true</span>;</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>时间戳代码实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 缓存上次执行时间的变量</span></span><br><span class="line">    <span class="keyword">let</span> activeTime = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 获取每次执行的时间戳</span></span><br><span class="line">        <span class="keyword">const</span> curTime = +<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">        <span class="comment">// 判断当前执行的时间和缓存的时间戳的时间差是否大于要延时的时间 </span></span><br><span class="line">        <span class="keyword">if</span>( curTime - activeTime &gt; time )&#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            <span class="comment">// 缓存当前时间</span></span><br><span class="line">            activeTime = curTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -209,39 +242,6 @@
       </categories>
       <tags>
         <tag>React</tag>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>实现防抖和节流</title>
-    <url>/2020/04/26/%E5%AE%9E%E7%8E%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
-    <content><![CDATA[<p>在业务开发场景中，我们经常会使用到防抖和节流，我一般都是使用<code>Lodash</code>工具库直接调用这两个方法，今天自己来实现一下这两个方法。</p>
-<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖的含义：触发高频事件在n秒以后执行，如果在n秒之内再次触发事件，则重新计算时间<br>防抖的应用场景：</p>
-<ul>
-<li>autoComplete组件</li>
-</ul>
-<ul>
-<li>实时搜索框</li>
-</ul>
-<p>实现思路：<br>利用闭包缓存一个时间为n秒计时器，每次触发事件时，清除上一个计时器。<br>代码：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 利用闭包缓存一个定时器</span></span><br><span class="line">    <span class="keyword">let</span> timeout = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 每次执行 则先清除上一个定时器</span></span><br><span class="line">        clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout(<span class="function">(<span class="params">a</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 执行事件</span></span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流(throttle)"></a>节流(throttle)</h2><p>节流的含义：触发高频事件后，在n秒内只执行一次<br>节流的应用场景：</p>
-<ul>
-<li>监听滚动事件，实现懒加载等</li>
-</ul>
-<ul>
-<li>防止用户连续频繁的点击事件，如提交按钮等</li>
-</ul>
-<p>实现节流有两种方案：</p>
-<ul>
-<li>利用闭包缓存一个是否可以执行函数的变量，配合定时器去修改变量来执行函数。</li>
-</ul>
-<ul>
-<li>利用闭包缓存上一次的时间戳，判断当前执行的时间和上一次时间的间隔是否大于规定时间。</li>
-</ul>
-<p>定时器代码实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置一个标识 来判断延时函数是否可以执行，默认可以执行</span></span><br><span class="line">    <span class="keyword">let</span> isCanRun = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 每次执行先判断是否可以执行延迟函数</span></span><br><span class="line">        <span class="keyword">if</span>(!isCanRun) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// 将标识设置为false，表示有延时函数需要执行</span></span><br><span class="line">        isCanRun = <span class="literal">false</span>;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            <span class="comment">// 在函数执行完后 延时将标识设置为true，</span></span><br><span class="line">            isCanRun = <span class="literal">true</span>;</span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>时间戳代码实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 缓存上次执行时间的变量</span></span><br><span class="line">    <span class="keyword">let</span> activeTime = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 获取每次执行的时间戳</span></span><br><span class="line">        <span class="keyword">const</span> curTime = +<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">        <span class="comment">// 判断当前执行的时间和缓存的时间戳的时间差是否大于要延时的时间 </span></span><br><span class="line">        <span class="keyword">if</span>( curTime - activeTime &gt; time )&#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            <span class="comment">// 缓存当前时间</span></span><br><span class="line">            activeTime = curTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
         <tag>JavaScript</tag>
       </tags>
   </entry>
@@ -674,6 +674,27 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移动端rem适配记录</title>
+    <url>/2020/08/14/%E7%A7%BB%E5%8A%A8%E7%AB%AFrem%E9%80%82%E9%85%8D%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>最近在项目中做了一个h5页面，发现适配方案有很多，最终选择了使用<code>flex</code>加<code>lib-flexible</code>和<code>rem</code>去进行适配，本文记录下在项目中是如何配置适配的。</p>
+<h2 id="lib-flexible"><a href="#lib-flexible" class="headerlink" title="lib-flexible"></a>lib-flexible</h2><p>说到移动端适配，手淘的<code>flexible</code>方案应该是使用的最多的。不过由于<code>viewport</code>单位兼容性越来越好，官方也建议大家使用<code>viewport</code>单位替代<code>flexible</code>方案。但是本文还是选择继续使用<code>flexible</code>，后面可能会使用<code>viewport</code>重构。</p>
+<h3 id="安装和使用"><a href="#安装和使用" class="headerlink" title="安装和使用"></a>安装和使用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install lib-flexible --save</span><br></pre></td></tr></table></figure>
+<p>安装完成后，在项目的入口文件中引入该插件即可。<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'lib-flexible'</span></span><br></pre></td></tr></table></figure></p>
+<p>在html模板文件中，定义meta标签，该标签定义了用户通过手指放大缩小无效，页面比例始终为1:1。<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="px2rem-loader"><a href="#px2rem-loader" class="headerlink" title="px2rem-loader"></a>px2rem-loader</h2><p>引入了<code>lib-flexible</code>后，我们要做的就是把设计稿中的<code>px</code>转为<code>rem</code>了。当然，在现在这个前端工程化如火如荼的环境下，我们有很多自动化的转换工具。我在项目中使用了<code>px2rem-loader</code>这个插件去自动转换。</p>
+<h3 id="安装和使用-1"><a href="#安装和使用-1" class="headerlink" title="安装和使用"></a>安装和使用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install px2rem-loader --save-dev</span><br></pre></td></tr></table></figure>
+<p>安装完成后，我们就需要在<code>webpack</code>打包配置中，配置一下<code>loader</code>了。我的项目中使用的是<code>less</code>文件处理器，所以增加以下配置：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">            use: [&#123;</span><br><span class="line">                loader: <span class="string">'style-loader'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                loader: <span class="string">'css-loader'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                loader: <span class="string">'px2rem-loader'</span>,</span><br><span class="line">                <span class="comment">// options here</span></span><br><span class="line">                options: &#123;</span><br><span class="line">                    remUnit: <span class="number">37.5</span>,</span><br><span class="line">                    remPrecision: <span class="number">8</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.less$/</span>,</span><br><span class="line">            use: [&#123;</span><br><span class="line">                loader: <span class="string">'style-loader'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                loader: <span class="string">'css-loader'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                loader: <span class="string">'px2rem-loader'</span>,</span><br><span class="line">                <span class="comment">// options here</span></span><br><span class="line">                options: &#123;</span><br><span class="line">                    remUnit: <span class="number">37.5</span>,</span><br><span class="line">                    remPrecision: <span class="number">8</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                loader: <span class="string">'less-loader'</span>,</span><br><span class="line">                <span class="comment">// options here</span></span><br><span class="line">                options: &#123;</span><br><span class="line">                    javascriptEnabled: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里需要注意的是<code>options</code>中的<code>remUnit</code>这个配置，<code>lib-flexible</code>默认将页面分成100份，<code>1rem</code>等于10份，所以这个<code>remUnit</code>就是我们<code>1rem</code>的数据。我们可以根据设计稿的尺寸来设置这个配置。因为我的设计稿是<code>375px</code>的所以这里我配置的是<code>37.5</code>。</p>
+<h2 id="styled-px2rem"><a href="#styled-px2rem" class="headerlink" title="styled-px2rem"></a>styled-px2rem</h2><p>可能大家很疑惑，上面的配置已经可以开始开发了，为什么还有一个<code>styled-px2rem</code>。这个主要是我们项目中没有统一化<code>css</code>预处理器的使用导致的，大家不要学习。但是为了恰饭，也要继续工作呀。所以要继续配置<code>styled</code>中<code>px</code>转<code>rem</code>的工作。<br>因为<code>styled</code>是<code>js</code>文件，所以<code>px2rem-loader</code>并不能解析我们的样式。但是我又不甘心自己去手动算<code>rem</code>，然后经过一顿搜索，找到了一个<code>styled-px2rem</code>的工具。具体使用方法，大家可以参考<a href="https://github.com/win-winFE/styled-px2rem" target="_blank" rel="noopener">github上的说明</a>。配置很简单，完成后就可以开开心心的开始开发了。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>关于移动端适配的方式有很多，本文只是对这次配置的一个记录，后续开发应该会选择<code>flex</code>加<code>vw</code>的方式，不需要这么多繁琐的配置。</p>
+]]></content>
+      <tags>
+        <tag>styled</tag>
+        <tag>rem</tag>
+        <tag>flexible</tag>
       </tags>
   </entry>
 </search>
