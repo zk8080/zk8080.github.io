@@ -24,7 +24,7 @@ theme_color:
   hr_color: "#000"
   meta_color: "#000"
   header_text_color: "#fff" # v1.7.0+
-  footer_text_color: "#000" # v1.7.0+
+  footer_text_color: "#fff" # v1.7.0+
 
 # Main menu navigation
 menu:
