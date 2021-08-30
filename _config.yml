@@ -80,7 +80,7 @@ theme: melody
 deploy:
   type: git
   repo: 
-    github: https://github.com/zk8080/zk8080.github.io.git
+    github: git@github.com:zk8080/zk8080.github.io.git
     coding: https://e.coding.net/zk8080/zk8ling8ling.coding.me/zk8ling8ling.coding.me.git
   branch: master
 
