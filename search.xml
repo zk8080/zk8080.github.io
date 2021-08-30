@@ -697,4 +697,40 @@
         <tag>flexible</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CSS知识点记录</title>
+    <url>/2021/08/06/CSS%E7%9F%A5%E8%AF%86%E7%82%B9%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>最近在开发中，发现一些css样式自己处理的不是很好，但是在网上搜索后都找到了解决方案，在此文章里记录下。</p>
+<h2 id="父元素设置min-height，子元素设置高度百分比继承无效"><a href="#父元素设置min-height，子元素设置高度百分比继承无效" class="headerlink" title="父元素设置min-height，子元素设置高度百分比继承无效"></a>父元素设置min-height，子元素设置高度百分比继承无效</h2><p><strong>表现</strong>：对父元素使用<code>min-height</code>为100px，在子元素不脱离文档流的情况下，对子元素设置为100%，但实际显示的时候，子元素的<code>height</code>是0。<br><strong>原因</strong>：子元素设置高度百分比时，是相对于父元素的高度进行继承计算的。当父元素只有<code>min-height</code>，但是没有<code>height</code>属性时，则无法获取活继承父元素高度，所以子元素的<code>height</code>为0。这是<code>webkit</code>的bug，有最小高度的父盒子里面的子元素不能继承高度。详见<a href="https://bugs.webkit.org/show_bug.cgi?id=26559">该链接</a>。</p>
+<p><strong>解决方案</strong></p>
+<ol>
+<li><p>在当前父元素外层再包一层div，并且设置为flex弹性布局。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;wrapper&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;parent&#x27;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;child&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方案利用的是弹性盒子会默认拉伸高度。</p>
+</li>
+<li><p>给父元素加绝对定位，然后子元素加相对定位，这样子元素的高度就会根据父元素的高度进行计算。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;parent&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;child&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="flex布局和margin的结合使用"><a href="#flex布局和margin的结合使用" class="headerlink" title="flex布局和margin的结合使用"></a>flex布局和margin的结合使用</h2><p><strong>表现</strong>：在页面布局中，经常会出现3列子项，前两项左对齐，最后一项右对齐。往常我都会将前两项放入一个元素中，来转换成两列布局，然后使用<code>justify-content: space-between</code>来完成布局，但是这样并不合理。<br><strong>解决方案</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div class=&#x27;parent&#x27;&gt;</span><br><span class="line">  &lt;div class=&#x27;box1&#x27;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;div class=&#x27;box2&#x27;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;div class=&#x27;box3&#x27;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box3</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只要将最后一列的<code>margin-left</code>设置为<code>auto</code>，则该子项会被挤到右对齐的位置，前两项依然为左对齐。</p>
+]]></content>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每天实现一个自定义Hooks之useDebounce</title>
+    <url>/2021/08/30/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hooks%E4%B9%8BuseDebounce/</url>
+    <content><![CDATA[<p>很久没有更新博客了，突发一个想法，每天实现一个简单实用的自定义Hooks，来加深自己对React Hooks的理解。今天实现一个简单的防抖Hooks。<br>直接上代码，本文只实现了最简单的防抖原理，如果想实现一个完整可用的，可以参考<code>ahooks</code>的<a href="https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useDebounce/index.ts">useDebounce</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const useDebounce = (value: any, delay = 300) =&gt; &#123;</span><br><span class="line">  // 要防抖的值</span><br><span class="line">  const [debounceVal, setDebounceVal] = useState&lt;any&gt;(value);</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 创建一个setTimeout，在delay(300)毫秒后设置debounceVal</span><br><span class="line">    const handler = setTimeout(() =&gt; &#123;</span><br><span class="line">      setDebounceVal(value);</span><br><span class="line">    &#125;, delay);</span><br><span class="line"></span><br><span class="line">    // 在delay(300)毫秒内value发生更新，则清空定时器，然后重新创建一个setTimeout</span><br><span class="line">    // 直到delay(300)毫秒内value未发生更新，则执行handler，设置debounceVal的值</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      clearTimeout(handler);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, [value, delay]);</span><br><span class="line"></span><br><span class="line">  return debounceVal;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+      </tags>
+  </entry>
 </search>
