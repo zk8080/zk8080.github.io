@@ -40,7 +40,7 @@ interface CbRef {
   timer: ReturnType<typeof setTimeout> | null;
 }
 
-const useDebounce = <T extends (...args: any[]) => any>(fn: T, wait: number) => {
+const useDebounce = <T extends (...args: any[]) => any>(fn: T, wait: number, deps = []) => {
   const DebounceRef = useRef<CbRef>({ fn, timer: null });
 
   // 每次执行hooks 重新赋值函数，可以保证每次执行的函数都能拿到组件内最新的state
@@ -58,7 +58,7 @@ const useDebounce = <T extends (...args: any[]) => any>(fn: T, wait: number) => 
         DebounceRef.current.timer = null;
       }, wait);
     },
-    [wait]
+    deps
   ) as T;
 }
 ```
