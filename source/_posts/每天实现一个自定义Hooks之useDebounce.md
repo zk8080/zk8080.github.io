@@ -32,3 +32,33 @@ const useDebounce = (value: any, delay = 300) => {
 };
 
 ```
+
+上面代码只适用于基础的防抖情景，例如input输入框`onChange`事件等，下面实现一个支持传入函数的防抖Hooks。
+```tsx
+interface CbRef {
+  fn: (...args: any[]) => any;
+  timer: ReturnType<typeof setTimeout> | null;
+}
+
+const useDebounce = <T extends (...args: any[]) => any>(fn: T, wait: number) => {
+  const DebounceRef = useRef<CbRef>({ fn, timer: null });
+
+  // 每次执行hooks 重新赋值函数，可以保证每次执行的函数都能拿到组件内最新的state
+  DebounceRef.current.fn = fn;
+
+  return useCallback(
+    (...args: any[]) => {
+      // 每次执行先判断是否存在上次的定时器，如果有则先清除定时器
+      if (DebounceRef.current.timer) {
+        clearTimeout(DebounceRef.current.timer);
+      }
+      // 超过wait秒后，执行setTimeout
+      DebounceRef.current.timer = setTimeout(() => {
+        DebounceRef.current.fn.apply(undefined, args);
+        DebounceRef.current.timer = null;
+      }, wait);
+    },
+    [wait]
+  ) as T;
+}
+```
