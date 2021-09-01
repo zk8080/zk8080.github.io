@@ -7,8 +7,8 @@ tags:
     - JavaScript
 ---
 
-很久没有更新博客了，突发一个想法，每天实现一个简单实用的自定义Hooks，来加深自己对React Hooks的理解。今天实现一个简单的防抖Hooks。
-直接上代码，本文只实现了最简单的防抖原理，如果想实现一个完整可用的，可以参考`ahooks`的[useDebounce](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useDebounce/index.ts)
+很久没有更新博客了，突发一个想法，每天实现一个简单实用的自定义Hooks，来加深自己对React Hooks的理解。今天实现一个简单的防抖Hooks。本文只实现了最简单的防抖原理，如果想实现一个完整可用的，可以参考`ahooks`的[useDebounce](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useDebounce/index.ts)。直接上代码：
+<!-- more -->
 
 ```tsx
 const useDebounce = (value: any, delay = 300) => {

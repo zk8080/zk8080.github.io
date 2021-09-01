@@ -7,7 +7,7 @@ tags:
     - JavaScript
 ---
 昨天实现了防抖的自定义Hooks`useDebounce`，那么今天来实现一下节流的自定义Hooks`useThrottle`。关于节流，之前的文章中有提到过可以使用定时器和时间戳两种方式来实现，那么我们的hooks也可以使用两种方案来实现。
-
+<!-- more -->
 ### 使用定时器实现
 ```tsx
 type Nullable<T> = T | null;
