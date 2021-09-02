@@ -1,5 +1,5 @@
 ---
-title: 每天实现一个自定义Hooks之useThrottle
+title: 每天实现一个自定义Hook之useThrottle
 date: 2021-08-31 23:53:00
 tags: 
     - React
