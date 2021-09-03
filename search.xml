@@ -807,4 +807,16 @@
         <tag>JavaScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useToggle</title>
+    <url>/2021/09/03/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseToggle/</url>
+    <content><![CDATA[<p>今天来实现一个切换布尔状态值的自定义Hook。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const useToggle = (initialState: boolean = false): [boolean, any] =&gt; &#123;</span><br><span class="line">    // 接受默认布尔状态，默认为false</span><br><span class="line">    const [state, setState] = useState&lt;boolean&gt;(initialState);</span><br><span class="line">    // 创建切换函数，布尔值取反</span><br><span class="line">    // 使用useCallback优化函数定义，防止函数重新定义 导致组件不必要的渲染</span><br><span class="line">    const toggle = useCallback((): void =&gt; setState(state =&gt; !state), []);</span><br><span class="line">    return [state, toggle];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+      </tags>
+  </entry>
 </search>
