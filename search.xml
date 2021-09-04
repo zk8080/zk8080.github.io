@@ -819,4 +819,16 @@
         <tag>React Hook</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之usePrevious</title>
+    <url>/2021/09/04/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BusePrevious/</url>
+    <content><![CDATA[<p>今天来实现一个可以获取组件更新前一轮的<code>props</code>和<code>state</code>的自定义Hook，这个Hook在React文档中有描述，我在之前的文章中也有单独解读，这里为了记录每天的自定义Hook，就重新实现一次。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function usePrevious&lt;T&gt;(value: T): T &#123;</span><br><span class="line">  // 使用ref存储要获取的props或者state</span><br><span class="line">  const ref: any = useRef&lt;T&gt;();</span><br><span class="line">  // 在useEffect中重新设置ref的值</span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 因为useEffect是在Render后才执行的，所以会先返回ref.current 再执行useEffect把新的value更新到ref上，</span><br><span class="line">    // 下次更新时获取的是上一轮更新的值</span><br><span class="line">    ref.current = value;</span><br><span class="line">  &#125;, [value]); </span><br><span class="line">  // 返回上一轮的值</span><br><span class="line">  return ref.current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+      </tags>
+  </entry>
 </search>
