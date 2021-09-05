@@ -832,4 +832,16 @@
         <tag>React Hook</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useLockFn</title>
+    <url>/2021/09/05/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseLockFn/</url>
+    <content><![CDATA[<p>今天来实现一个可以对异步函数增加竞态锁的自定义Hook，这个在平时开发中也有很多场景可以使用，例如表单提交，当然也可以使用防抖、节流、Loading等方案。直接上代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function useLockFn&lt;P extends any[] = any[], V extends any = any&gt;(fn: (...args: P) =&gt; Promise&lt;V&gt;) &#123;</span><br><span class="line">  // 用于判断异步函数是否执行完成的标识</span><br><span class="line">  const lockRef = useRef(false);</span><br><span class="line"></span><br><span class="line">  // 使用useCallback来优化函数定义，防止不必要的渲染</span><br><span class="line">  return useCallback(</span><br><span class="line">    async (...args: P) =&gt; &#123;</span><br><span class="line">      // 如果异步函数在执行中，则直接return 相当于Promise.resolve(undefined)</span><br><span class="line">      if (lockRef.current) return;</span><br><span class="line">      // 加锁</span><br><span class="line">      lockRef.current = true;</span><br><span class="line">      try &#123;</span><br><span class="line">        // 执行异步函数</span><br><span class="line">        const ret = await fn(...args);</span><br><span class="line">        // 解锁</span><br><span class="line">        lockRef.current = false;</span><br><span class="line">        return ret;</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        // 出现异常解锁</span><br><span class="line">        lockRef.current = false;</span><br><span class="line">        throw e;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    [fn],</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+      </tags>
+  </entry>
 </search>
