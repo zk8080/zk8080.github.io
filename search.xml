@@ -55,6 +55,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div class=&#x27;parent&#x27;&gt;</span><br><span class="line">  &lt;div class=&#x27;box1&#x27;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;div class=&#x27;box2&#x27;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;div class=&#x27;box3&#x27;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box3</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>只要将最后一列的<code>margin-left</code>设置为<code>auto</code>，则该子项会被挤到右对齐的位置，前两项依然为左对齐。</p>
+<h3 id="flex布局中flex-wrap换行逻辑"><a href="#flex布局中flex-wrap换行逻辑" class="headerlink" title="flex布局中flex-wrap换行逻辑"></a>flex布局中flex-wrap换行逻辑</h3><p><strong>表现</strong>：当父元素设置为<code>flex</code>时，且使用了<code>flex-wrap: wrap</code>，如果子元素某一子项文本内容过长，则会将该子项整体自动换行。<br><strong>解决方案</strong><br>该问题记录的原因是因为在开发中有使用<code>contenteditable</code>属性做评论功能，动态渲染其子元素，出现文本换行，查询后发现自己在外层父元素中使用了<code>flex-wrap: wrap</code>，去除该属性后便无问题。查询了<code>flex</code>文档后才发现，自己之前对<code>flex</code>的了解不够深入，特此记录。</p>
 ]]></content>
       <tags>
         <tag>CSS</tag>
