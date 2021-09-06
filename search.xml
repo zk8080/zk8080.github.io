@@ -844,4 +844,16 @@
         <tag>React Hook</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useClickAway</title>
+    <url>/2021/09/06/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseClickAway/</url>
+    <content><![CDATA[<p>今天来实现一个判断是否在目标元素外点击的自定义Hook，逻辑比较简单。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function useClickAway(ref: RefObject&lt;HTMLElement&gt;, handler: Function) &#123;</span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 监听事件执行的回调</span><br><span class="line">    const listener = (event: MouseEvent) =&gt; &#123;</span><br><span class="line">      // 如果不存在目标元素，或者当前点击的元素在目标元素内，则不处理传入的handler</span><br><span class="line">      if (!ref.current || ref.current.contains(event.target as HTMLElement)) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 执行传入的handler</span><br><span class="line">      handler(event);</span><br><span class="line">    &#125;;</span><br><span class="line">    // 注册监听事件</span><br><span class="line">    document.addEventListener(&#x27;click&#x27;, listener);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      // 卸载监听事件</span><br><span class="line">      document.removeEventListener(&#x27;click&#x27;, listener);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, [ref, handler]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+      </tags>
+  </entry>
 </search>
