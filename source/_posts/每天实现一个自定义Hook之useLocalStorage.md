@@ -5,6 +5,7 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个可以将`state`同步存储在`localStorage`中的自定义Hook。直接上代码：
 <!-- more -->

@@ -5,6 +5,7 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个获取Dom元素Hover状态的自定义Hooks，功能简单，逻辑也很简单。直接上代码：
 <!-- more -->

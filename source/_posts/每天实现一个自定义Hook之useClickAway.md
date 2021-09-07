@@ -5,6 +5,7 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个判断是否在目标元素外点击的自定义Hook，逻辑比较简单。直接上代码：
 <!-- more -->

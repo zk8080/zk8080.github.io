@@ -5,8 +5,10 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个可以对异步函数增加竞态锁的自定义Hook，这个在平时开发中也有很多场景可以使用，例如表单提交，当然也可以使用防抖、节流、Loading等方案。直接上代码：
+<!-- more -->
 ```tsx
 function useLockFn<P extends any[] = any[], V extends any = any>(fn: (...args: P) => Promise<V>) {
   // 用于判断异步函数是否执行完成的标识

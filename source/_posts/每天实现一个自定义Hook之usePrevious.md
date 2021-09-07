@@ -5,6 +5,7 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个可以获取组件更新前一轮的`props`和`state`的自定义Hook，这个Hook在React文档中有描述，我在之前的文章中也有单独解读，这里为了记录每天的自定义Hook，就重新实现一次。直接上代码：
 <!-- more -->

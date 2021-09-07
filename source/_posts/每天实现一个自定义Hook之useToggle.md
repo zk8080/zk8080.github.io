@@ -5,6 +5,7 @@ tags:
     - React
     - React Hook
     - JavaScript
+    - TypeScript
 ---
 今天来实现一个切换布尔状态值的自定义Hook。直接上代码：
 <!-- more -->
