@@ -879,4 +879,18 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之usePersistFn</title>
+    <url>/2021/09/08/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BusePersistFn/</url>
+    <content><![CDATA[<p>今天来实现一个可以持久化<code>function</code>，保证函数引用地址不会改变的自定义Hook。直接上代码：</p>
+<span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export type noop = (...args: any[]) =&gt; any;</span><br><span class="line"></span><br><span class="line">function usePersistFn&lt;T extends noop&gt;(fn: T) &#123;</span><br><span class="line">  // 存储传入函数的ref变量</span><br><span class="line">  const fnRef = useRef&lt;T&gt;(fn);</span><br><span class="line">  // 每次渲染fn的最新值都会记录在fnRef中</span><br><span class="line">  fnRef.current = fn;</span><br><span class="line">  </span><br><span class="line">  // 返回给组件使用的函数</span><br><span class="line">  const persistFn = useRef&lt;T&gt;();</span><br><span class="line">  // 首次渲染时给persistFn赋值，后续渲染persistFn不会更新</span><br><span class="line">  if (!persistFn.current) &#123;</span><br><span class="line">    // persistFn的引用地址一直在这个匿名函数中</span><br><span class="line">    persistFn.current = function (...args) &#123;</span><br><span class="line">      return fnRef.current!.apply(this, args);</span><br><span class="line">    &#125; as T;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 返回persistFn</span><br><span class="line">  return persistFn.current!;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
