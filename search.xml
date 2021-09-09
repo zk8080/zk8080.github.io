@@ -893,4 +893,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useInterval</title>
+    <url>/2021/09/09/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseInterval/</url>
+    <content><![CDATA[<p>今天来实现一个可以处理<code>setInterval</code>的自定义Hook。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function useInterval(fn: () =&gt; void, delay: number | null | undefined, options?: &#123; immediate?: boolean &#125;): void &#123;</span><br><span class="line">  // 是否首次立即执行</span><br><span class="line">  const immediate = options?.immediate;</span><br><span class="line">  // 要执行的函数</span><br><span class="line">  const fnRef = useRef&lt;() =&gt; void&gt;();</span><br><span class="line">  // 每次更新 拿到最新的函数重新赋值</span><br><span class="line">  fnRef.current = fn;</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 如果没有传入间隔 则不执行定时器</span><br><span class="line">    if (delay === undefined || delay === null) return;</span><br><span class="line">    // 是否立即执行函数</span><br><span class="line">    if (immediate) &#123;</span><br><span class="line">      fnRef.current?.();</span><br><span class="line">    &#125;</span><br><span class="line">    // 创建定时器</span><br><span class="line">    const timer = setInterval(() =&gt; &#123;</span><br><span class="line">      fnRef.current?.();</span><br><span class="line">    &#125;, delay);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      // 清除定时器</span><br><span class="line">      clearInterval(timer);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, [delay]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
