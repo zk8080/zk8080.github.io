@@ -906,4 +906,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useUpdateEffect</title>
+    <url>/2021/09/10/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseUpdateEffect/</url>
+    <content><![CDATA[<p>今天来实现一个只在依赖更新时执行的<code>useEffect</code>，逻辑简单。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const useUpdateEffect = (effect, deps) =&gt; &#123;</span><br><span class="line">  // 判断组件是否已经挂载的ref</span><br><span class="line">  const isMounted = useRef(false);</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    </span><br><span class="line">    if (!isMounted.current) &#123;</span><br><span class="line">      // 初次执行时</span><br><span class="line">      isMounted.current = true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // 组件已经挂载过</span><br><span class="line">      return effect();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, deps);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
