@@ -919,4 +919,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useTitle</title>
+    <url>/2021/09/12/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseTitle/</url>
+    <content><![CDATA[<p>今天来实现一个设置页面标题的自定义Hook，逻辑简单。直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function useTitle(title: string, restore?: boolean) &#123;</span><br><span class="line">  // 原始的也页面标题</span><br><span class="line">  const titleRef = useRef(document.title);</span><br><span class="line">  </span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 将页面标题更新为传入的标题</span><br><span class="line">    document.title = title;</span><br><span class="line">  &#125;, [title]);</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      if(restore) &#123;</span><br><span class="line">        // 如果需要在页面卸载时恢复原始标题</span><br><span class="line">        document.title = titleRef.current;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
