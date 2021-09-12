@@ -932,4 +932,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useOnScreen</title>
+    <url>/2021/09/12/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseOnScreen/</url>
+    <content><![CDATA[<p>今天来实现一个可以检测元素何时可见的自定义Hook，该Hook实现逻辑依赖了<code>IntersectionObserver</code>API，对其不了解的可以去<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API">MDN</a>上查看详细介绍，主要是提供了一种异步检测目标元素与祖先元素或 viewport相交情况变化的方法，后续打算整理一篇详细的使用情况。这里先实现我们的自定义Hook，直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function useOnScreen&lt;T extends Element&gt;(ref: MutableRefObject&lt;T&gt;, rootMargin: string = &quot;0px&quot;): boolean &#123;</span><br><span class="line">  // 目标元素是否可见的状态state</span><br><span class="line">  const [isIntersecting, setIntersecting] = useState&lt;boolean&gt;(false);</span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 创建一个 IntersectionObserver 对象</span><br><span class="line">    const observer = new IntersectionObserver(</span><br><span class="line">      ([entry]) =&gt; &#123;</span><br><span class="line">        // entry代表当前元素IntersectionObserverEntry对象，isIntersecting属性代表其是否在当前窗口是否显示</span><br><span class="line">        setIntersecting(entry.isIntersecting);</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 配置root元素的外边距，即元素距离窗口多少距离时开始触发回调函数</span><br><span class="line">        rootMargin,</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">    if (ref.current) &#123;</span><br><span class="line">      // 开始监听目标元素</span><br><span class="line">      observer.observe(ref.current);</span><br><span class="line">    &#125;</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      // 停止监听目标元素</span><br><span class="line">      observer.unobserve(ref.current);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, []); </span><br><span class="line"></span><br><span class="line">  // 返回目标元素可见状态</span><br><span class="line">  return isIntersecting;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
