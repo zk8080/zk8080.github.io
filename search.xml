@@ -945,4 +945,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useWindowSize</title>
+    <url>/2021/09/13/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseWindowSize/</url>
+    <content><![CDATA[<p>今天来实现一个获取当前window窗口的宽高的自定义Hook。逻辑简单，直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface Size &#123;</span><br><span class="line">  width: number;</span><br><span class="line">  height: number;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function useWindowSize(): Size &#123;</span><br><span class="line"></span><br><span class="line">  const [windowSize, setWindowSize] = useState&lt;Size&gt;(&#123;</span><br><span class="line">    width: window.clientWidth,</span><br><span class="line">    height: window.clientHeight,</span><br><span class="line">  &#125;);</span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // resize的回调函数</span><br><span class="line">    function handleResize() &#123;</span><br><span class="line">      // 设置窗口大小</span><br><span class="line">      setWindowSize(&#123;</span><br><span class="line">        width: window.clientWidth,</span><br><span class="line">        height: window.clientHeight,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    // 监听resize</span><br><span class="line">    window.addEventListener(&quot;resize&quot;, handleResize);</span><br><span class="line">    // 取消监听</span><br><span class="line">    return () =&gt; window.removeEventListener(&quot;resize&quot;, handleResize);</span><br><span class="line">  &#125;, []);</span><br><span class="line">  return windowSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
