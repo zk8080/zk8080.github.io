@@ -958,4 +958,17 @@
         <tag>TypeScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>每天实现一个自定义Hook之useAsync</title>
+    <url>/2021/09/15/%E6%AF%8F%E5%A4%A9%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E4%B9%8BuseAsync/</url>
+    <content><![CDATA[<p>今天来实现一个简单的用来处理<code>async</code>函数或者<code>Promise</code>函数的自定义Hook。<code>useAsync</code>只会单纯的处理异步操作，返回请求的状态和数据，如果想要使用功能齐全和成熟的的异步请求自定义Hook，可以使用<a href="https://swr.vercel.app/zh-CN">useSWR</a>或者<a href="https://ahooks.js.org/zh-CN/hooks/async">useRequest</a>。接下来来实现我们的<code>useAsync</code>，直接上代码：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface AsyncData&lt;T&gt; &#123;</span><br><span class="line">	data: T | null;</span><br><span class="line">	isLoading: boolean;</span><br><span class="line">	error: any;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">const useAsync = &lt;T&gt;(</span><br><span class="line">  fn: () =&gt; Promise&lt;T&gt;,</span><br><span class="line">  deps: any[]</span><br><span class="line">): AsyncData&lt;T&gt; =&gt; &#123;</span><br><span class="line">  // 异步操作需要返回的state</span><br><span class="line">  const [data, setData] = useState&lt;T | null&gt;(null);</span><br><span class="line">  const [isLoading, setIsLoading] = useState(false);</span><br><span class="line">  const [error, setError] = useState();</span><br><span class="line">  </span><br><span class="line">  // 利用useCallback缓存异步操作函数</span><br><span class="line">  const callback = useCallback(() =&gt; &#123;</span><br><span class="line">    // loading状态</span><br><span class="line">    setIsLoading(true);</span><br><span class="line">    return fn().then((response: T) =&gt; &#123;</span><br><span class="line">        // success</span><br><span class="line">        setIsLoading(false);</span><br><span class="line">        setData(response);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch((error: any) =&gt; &#123;</span><br><span class="line">        // error</span><br><span class="line">        setIsLoading(false);</span><br><span class="line">        setError(error);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;, deps);</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    // 依赖改变时重新执行异步操作</span><br><span class="line">    callback();</span><br><span class="line">  &#125;, [callback]);</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    data,</span><br><span class="line">    isLoading,</span><br><span class="line">    error,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>JavaScript</tag>
+        <tag>React Hook</tag>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
 </search>
