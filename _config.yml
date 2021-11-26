@@ -6,14 +6,14 @@
 title: ZKAT
 subtitle: 
 description: 前端小白的个人总结记录
-keywords: 
+keywords: [React,前端,移动端,H5,JavaScript,React Hook, TypeScript]
 author: ZK8080
 language: zh-Hans 
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://zkat.site
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
