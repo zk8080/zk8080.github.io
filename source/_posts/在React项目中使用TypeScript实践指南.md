@@ -114,7 +114,8 @@ class App extends React.Component<IProps, IState> {
 ```
 
 ### React Hooks使用
-1. useState
+
+#### useState
 声明定义：
 ```ts
 function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
@@ -146,7 +147,7 @@ const [count, setCount] = useState(1);
 const [user, setUser] = useState<IUser | null>(null);
 ```
 
-2. useRef
+#### useRef
 声明定义：
 ```ts
  function useRef<T>(initialValue: T): MutableRefObject<T>;
@@ -175,7 +176,7 @@ const idRef = useRef<string | null>(null);
 idRef.current = "abc";
 ```
 
-3. useCallback
+#### useCallback
 声明定义：
 ```ts
  function useCallback<T extends (...args: any[]) => any>(callback: T, deps: DependencyList): T;
@@ -206,7 +207,7 @@ const add = useCallback((a: number, b: number) => a + b, [a, b])
 // 传入泛型，则指定函数类型
 const toggle = useCallback<(a: number) => number>((a: number) => a * 2, [a])
 ```
-4. useMemo
+#### useMemo
 声明定义：
 ```ts
 function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T;
@@ -229,3 +230,159 @@ const add = useCallback((a: number, b: number) => a + b, [a, b])
 // 传入泛型，则指定函数类型
 const toggle = useCallback<number>((a: number) => a * 2, [a])
 ```
+#### useContext
+声明定义：
+```ts
+function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+/**
+  * Returns a stateful value, and a function to update it.
+  *
+  * @version 16.8.0
+  * @see https://reactjs.org/docs/hooks-reference.html#usestate
+  */
+```
+useContext会根据传入的上下文对象自动推导出context的类型，当然也可以使用泛型来设置context的类型，如下：
+```ts
+interface ITheme {
+	color: string;
+}
+const ThemeContext = React.createContext<ITheme>({ color: "red" });
+
+// 自动推导出类型为ITheme
+const theme = useContext(ThemeContext); // 等同于const theme = useContext<ITheme>(ThemeContext);
+```
+#### useReducer
+声明定义：
+```ts
+function useReducer<R extends Reducer<any, any>>(
+    reducer: R,
+    initialState: ReducerState<R>,
+    initializer?: undefined
+): [ReducerState<R>, Dispatch<ReducerAction<R>>];
+/**
+  * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+  * (`initialValue`). The returned object will persist for the full lifetime of the component.
+  *
+  * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+  * value around similar to how you’d use instance fields in classes.
+  *
+  * @version 16.8.0
+  * @see https://reactjs.org/docs/hooks-reference.html#useref
+  */
+```
+上面只列出了一种类型定义，我在项目中也是使用这种定义去指定`useReducer`的类型。普通的案例如下：
+```ts
+type StateType = {
+  name: string;
+  age: number;
+}
+
+type Actions = {
+  type: 'Change_Name';
+  payload: string;
+} | {
+  type: 'Change_Age';
+  payload: number;
+}
+
+const initialState = {
+  name: '小明',
+  age: 18
+}
+
+const reducerAction: Reducer<StateType, Actions> = (
+  state,
+  action,
+) => {
+  switch (action.type) {
+    case 'Change_Name':
+      return { ...state, name: action.payload };
+    case 'Change_Age':
+      return { ...state, age: action.payload };
+    default:
+      return state;
+  }
+};
+
+function Index() {
+  const [state, dispatch] = useReducer(reducerAction, initialState);
+  return (
+    <div>
+      <div>姓名：{state.name}</div>
+      <div>年龄：{state.age}</div>
+    </div>
+  );
+}
+
+```
+可以看到，这样能够得到正确的类型推断，但是略微繁琐。在这篇[文章](https://medium.com/hackernoon/finally-the-typescript-redux-hooks-events-blog-you-were-looking-for-c4663d823b01)中，
+学到了一个泛型定义，可以稍微简化一下定义`Actions`的过程。案例如下：
+```ts
+// 定义一个生成Action类型的泛型
+type ActionMap<M extends Record<string, any>> = {
+  [Key in keyof M]: M[Key] extends undefined
+    ? {
+        type: Key
+      }
+    : {
+        type: Key
+        payload: M[Key]
+      }
+}
+
+type StateType = {
+  name: string;
+  age: number;
+}
+
+// 定义具体的Action类型
+type PayloadType = {
+  Change_Name: string;
+  Change_Age: number;
+}
+
+/** 
+  ActionMap<PayloadType>会生成类型
+  {
+    Change_Name: {
+        type: Types.Name;
+        payload: string;
+    };
+    Change_Age: {
+        type: Types.Age;
+        payload: number;
+    };
+  }
+  而keyof ActionMap<PayloadType>则会生成 'Change_Name' | 'Change_Age'的类型。
+  所以Action最终的类型便为：
+  type Actions = {
+      type: Types.Name;
+      payload: string;
+  } | {
+      type: Types.Age;
+      payload: number;
+  }
+*/
+type Actions = ActionMap<PayloadType>[keyof ActionMap<PayloadType>]
+
+const initialState = {
+  name: '小明',
+  age: 18
+}
+
+const reducerAction: Reducer<StateType, Actions> = (
+  state,
+  action,
+) => {
+  switch (action.type) {
+    case Types.Name:
+      return { ...state, name: action.payload };
+    case Types.Age:
+      return { ...state, age: action.payload };
+    default:
+      return state;
+  }
+};
+```
+我们定义了一个`ActionMap`泛型，该泛型会将传入的类型`{key: value}`生成为新的`{key: {type: key, payload: value }`类型。然后我们利用`keyof`关键字获取到所有的key，就可以得到我们所需要的`{type: key1, payload: value1} | {type: key2, payload: value2}`的类型了。只要我们定义好`PayloadType`类型，则可以自动推导出我们需要的`Actions`类型。
+如果你觉得这样写还是很繁琐，那么可以去看我的这篇文章[在TypeScript中使用useReducer](https://zkat.site/2021/11/03/%E5%9C%A8TypeScript%E4%B8%AD%E4%BD%BF%E7%94%A8useReducer/#%E7%AE%80%E5%8C%96%E7%9A%84useReducer%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F)，里面介绍了简化的useReducer使用方式。

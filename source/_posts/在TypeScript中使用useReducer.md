@@ -122,7 +122,7 @@ const initialState = {
   age: 18
 }
 
-const simpleReducer = (prevState: StateType, updatedProperty: ): StateType => ({
+const simpleReducer = (prevState: StateType, updatedProperty: Partial<StateType>): StateType => ({
   ...prevState,
   ...updatedProperty
 })
