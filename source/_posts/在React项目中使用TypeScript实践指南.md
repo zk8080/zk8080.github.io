@@ -198,3 +198,34 @@ idRef.current = "abc";
   * @see https://reactjs.org/docs/hooks-reference.html#usememo
   */
 ```
+useCallback会根据返回值自动推断出类型，如果传入的参数不指定类型，则会默认为`any`，所以为了严谨和可维护性，一定要指定入参的类型。也可以手动传入泛型指定函数类型。如下：
+```ts
+// 会自动推导出类型： (a: number, b: number) => number;
+const add = useCallback((a: number, b: number) => a + b, [a, b])
+
+// 传入泛型，则指定函数类型
+const toggle = useCallback<(a: number) => number>((a: number) => a * 2, [a])
+```
+4. useMemo
+声明定义：
+```ts
+function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T;
+   /**
+    * `useDebugValue` can be used to display a label for custom hooks in React DevTools.
+    *
+    * NOTE: We don’t recommend adding debug values to every custom hook.
+    * It’s most valuable for custom hooks that are part of shared libraries.
+    *
+    * @version 16.8.0
+    * @see https://reactjs.org/docs/hooks-reference.html#usedebugvalue
+    */
+
+```
+useMemo和useCallback类似，只是定义类型为具体返回值的类型，而不是函数的类型。如下：
+```ts
+// 会自动推导出类型： number;
+const add = useCallback((a: number, b: number) => a + b, [a, b])
+
+// 传入泛型，则指定函数类型
+const toggle = useCallback<number>((a: number) => a * 2, [a])
+```
