@@ -386,3 +386,214 @@ const reducerAction: Reducer<StateType, Actions> = (
 ```
 我们定义了一个`ActionMap`泛型，该泛型会将传入的类型`{key: value}`生成为新的`{key: {type: key, payload: value }`类型。然后我们利用`keyof`关键字获取到所有的key，就可以得到我们所需要的`{type: key1, payload: value1} | {type: key2, payload: value2}`的类型了。只要我们定义好`PayloadType`类型，则可以自动推导出我们需要的`Actions`类型。
 如果你觉得这样写还是很繁琐，那么可以去看我的这篇文章[在TypeScript中使用useReducer](https://zkat.site/2021/11/03/%E5%9C%A8TypeScript%E4%B8%AD%E4%BD%BF%E7%94%A8useReducer/#%E7%AE%80%E5%8C%96%E7%9A%84useReducer%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F)，里面介绍了简化的useReducer使用方式。
+
+#### useImperativeHandle
+声明定义：
+```ts
+  function useImperativeHandle<T, R extends T>(ref: Ref<T>|undefined, init: () => R, deps?: DependencyList): void;
+  // NOTE: this does not accept strings, but this will have to be fixed by removing strings from type Ref<T>
+  /**
+   * `useImperativeHandle` customizes the instance value that is exposed to parent components when using
+   * `ref`. As always, imperative code using refs should be avoided in most cases.
+   *
+   * `useImperativeHandle` should be used with `React.forwardRef`.
+   *
+   * @version 16.8.0
+   * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+   */
+```
+`useImperativeHandle`可以让自定义组件通过`ref`属性，将内部属性暴露给父组件进行访问。因为是函数式组件，所以需要结合`forwardRef`一起使用。案例如下：
+```ts
+interface FancyProps {}
+
+interface FancyRef {
+  focus: () => void;
+}
+
+const FancyInput = forwardRef<FancyRef, FancyProps>((props, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current?.focus();
+    }
+  }));
+  return (
+    <input ref={inputRef} {...props} />
+  );
+})
+
+const Parent = () => {
+  // 定义子组件ref
+  const inputRef = useRef<FancyRef>(null);
+  return (
+    <div>
+      <FancyInput 
+        ref={inputRef}
+      />
+      <button 
+        onClick={() => {
+          // 调用子组件方法
+          inputRef.current?.focus();
+        }}
+      >聚焦</button>
+    </div>
+  )
+}
+```
+
+### Axios请求/响应定义封装
+`axios`是很流行的http库，他的ts封装已经很完美了，我们只做简单的二次封装，返回通用的数据响应格式。
+首先在`utils/request.ts`中创建一个构造axios实例的生成器：
+```ts
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Loading } from 'zarm';
+
+// 拦截器定义
+export interface RequestInterceptors {
+  // 请求拦截
+  requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
+  requestInterceptorsCatch?: (err: any) => any
+  // 响应拦截
+  responseInterceptors?: (config: AxiosResponse) => AxiosResponse
+  responseInterceptorsCatch?: (err: any) => any
+}
+
+// 生成axios实例的参数，实例可以单独传入拦截器
+export interface RequestConfig extends AxiosRequestConfig {
+  interceptorsObj?: RequestInterceptors
+}
+
+// loading请求数量
+let loadingCount: number = 0;
+
+// 打开loading
+const showLoading = () => {
+  loadingCount ++;
+  if(loadingCount > 0) {
+    Loading.show()
+  }
+}
+
+// 关闭loading
+const hideLoading = () => {
+  loadingCount --;
+  if(loadingCount <= 0) {
+    Loading.hide();
+  }
+}
+
+function RequestBuilder(config: RequestConfig) {
+  const { interceptorsObj, ...res } = config;
+
+  const instance: AxiosInstance = axios.create(res);
+
+  // 全局请求拦截器
+  instance.interceptors.request.use(
+    (request: AxiosRequestConfig) => {
+      // 显示loading
+      showLoading();
+      console.log('全局请求拦截器');
+      // TODO：全局的请求头操作等等
+      return request;
+    },
+    (err: any) => err,
+  )
+
+  /**
+   * 实例请求拦截器 
+   * 要注意 axios请求拦截器为倒序执行，所以要将实例请求拦截器注册在全局请求拦截器后面
+   */
+  instance.interceptors.request.use(
+    interceptorsObj?.requestInterceptors,
+    interceptorsObj?.requestInterceptorsCatch,
+  )
+
+  /**
+   * 实例响应拦截器
+   * axios响应拦截器为正序执行，所以要将实例响应拦截器注册在全局响应拦截器前面
+   */
+  instance.interceptors.response.use(
+    interceptorsObj?.responseInterceptors,
+    interceptorsObj?.responseInterceptorsCatch,
+  )
+  
+  // 全局响应拦截器
+  instance.interceptors.response.use(
+    (response: AxiosResponse) => {
+      console.log('全局响应拦截器');
+      // 关闭loading
+      hideLoading();
+      // TODO: 通用的全局响应处理，token过期重定向登录等等
+      // 返回值为res.data，即后端接口返回的数据，减少解构的层级，以及统一响应数据格式。
+      return response.data
+    },
+    (err: any) => {
+      // 关闭loading
+      hideLoading();
+      // TODO: 错误提示等
+      return err;
+    },
+  )
+
+  return instance;
+}
+
+export const http = RequestBuilder({baseURL: '/api'});
+```
+该生成器可以实现每个实例有单独的拦截器处理逻辑，并且实现全局的loading加载效果，全局拦截器的具体实现可以根据项目实际需求进行填充。生成器已经完成，但是还没法定制我们的通用响应数据，接下来我们在`typings.d.ts`中重新定义axios模块：
+```ts
+import * as axios from 'axios';
+
+declare module 'axios' {
+  // 定制业务相关的网络请求响应格式， T 是具体的接口返回类型数据
+  export interface CustomSuccessData<T> {
+    code: number;
+    msg?: string;
+    message?: string;
+    data: T;
+    [keys: string]: any;
+  }
+
+  export interface AxiosInstance {
+    // <T = any>(config: AxiosRequestConfig): Promise<CustomSuccessData<T>>;
+    request<T = any, R = CustomSuccessData<T>, D = any>(config: AxiosRequestConfig<D>): Promise<R>;
+    get<T = any, R = CustomSuccessData<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R>;
+    delete<T = any, R = CustomSuccessData<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R>;
+    head<T = any, R = CustomSuccessData<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R>;
+    post<T = any, R = CustomSuccessData<T>, D = any>(
+      url: string,
+      data?: D,
+      config?: AxiosRequestConfig<D>,
+    ): Promise<R>;
+    put<T = any, R = CustomSuccessData<T>, D = any>(
+      url: string,
+      data?: D,
+      config?: AxiosRequestConfig<D>,
+    ): Promise<R>;
+    patch<T = any, R = CustomSuccessData<T>, D = any>(
+      url: string,
+      data?: D,
+      config?: AxiosRequestConfig<D>,
+    ): Promise<R>;
+  }
+}
+```
+完成以上操作后，我们在业务代码中具体使用：
+```ts
+import { http } from '@/utils/request';
+
+interface Req {
+  userId: string;
+}
+
+interface Res {
+  userName: string;
+  userId: string;
+}
+
+// 获取用户信息接口
+const getUserInfo = async (params: Req) => {
+  return http.get<Res>('/getUserInfo', {params})
+}
+```
+这个时候`getUserInfo`返回的就是`CustomSuccessData<Res>`类型的数据了。至此我们对`axios`简单的封装也就完成了。
